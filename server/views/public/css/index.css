@@ -1,0 +1,178 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.header-logo {
+  margin-top: 3px;
+}
+
+.breadcrumbs-container {
+  position: relative;
+  float: left;
+  /* margin-left: -2em; */
+}
+
+.breadcrumbs-container ul {
+  padding: 0;
+}
+
+
+.breadcrumbs-container li {
+  display: inline;
+}
+
+.breadcrumbs-container .arrow {
+  padding: 5px;
+}
+
+.header-logo {
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  border-radius: 1em;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  float: left;
+  line-height: 1;
+  margin: 0 5px;
+  padding: .25em;
+  text-decoration: none;
+  margin-top: .2em;
+}
+
+header .user-links {
+  float: right;
+  right: 0;
+  padding-right: 10px;
+}
+
+header .user-links li {
+  display: inline;
+}
+
+header ul {
+  list-style: none;
+}
+
+header li {
+  /* font-size: small; */
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  padding: 5px;
+  background: #eee;
+  border-bottom: 1px solid #ccc;
+  top: 0;
+  left: 0;
+  line-height: .1em;
+  /* min-height: 1.1em; */
+  /* padding: .3em 4em .3em 0; */
+  /* position: absolute; */
+  right: 0;
+  /* text-align: center; */
+}
+
+footer {
+  background: #eee;
+  border-top: 1px solid #ccc;
+  bottom: 0;
+  left: 0;
+  line-height: .5em;
+  /* min-height: 1.1em; */
+  /* padding: .3em 4em .3em 0; */
+  position: absolute;
+  right: 0;
+  text-align: center;
+}
+
+footer .footer-links {
+  list-style: none;
+}
+
+footer li {
+  display: inline;
+  padding: 0 4px;
+  font-size: small;
+}
+
+/*********************
+ ***** HOMEPAGE ******
+ *********************/
+.homepage {
+  /* background: lightblue; */
+}
+
+.homepage .container {
+  display: grid;
+  height: 856px;
+  grid-template: auto / .2fr .67fr .13fr;
+  margin: 0 auto;
+  padding: 16px 0 1em 0;
+  width: 868px;
+  grid-gap: 10px;
+}
+
+.homepage .left {
+  grid-column: 1 / 2;
+  background: lightblue;
+}
+
+.homepage .main {
+  grid-column: 2 / 3;
+  background: lightcoral;
+}
+
+.homepage .right {
+  grid-column: 3 / 4;
+  background: lightpink;
+}
+
+
+/*********************
+ ******* SEARCH ******
+ *********************/
+
+.search .container {
+  display: grid;
+  height: 856px;
+  grid-template: auto / 190px auto;
+  /* margin: 0 auto; */
+  padding: 16px 0 1em 0;
+  width: 100%;
+  grid-gap: 10px;
+  margin-top: 2.6em;
+}
+
+.search .left {
+  background: lightpink;
+}
+
+.search .main {
+  background: lightskyblue;
+}
+
+
+
+
+/*********************
+ ****** POSTING ******
+ *********************/
+
+.posting .content {
+  /* padding: .5em 9px 6em 9px; */
+  margin: 0 auto;
+  height: 90%;
+  min-height: 600px;
+  max-width: 61.25em;
+  margin-top: 3.6em;
+  background: lightskyblue;
+}

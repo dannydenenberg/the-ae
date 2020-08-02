@@ -1,0 +1,46 @@
+//- this is for any basic page with main content
+block variables
+head
+  include ../constants/head-imports
+
+  //- like page title, extra meta, etc.
+  block head-items
+
+//- variable body class name
+body(class=(body_class ? body_class+' posting-t' : 'posting'))
+  header
+    a(href='/' class='header-logo') AE
+
+    nav(class='breadcrumbs-container')
+      ul(class='breadcrumbs')
+        block breadcrumbs
+          //- MUST include variable to get navigational links
+          if nav_links
+            each value, index in nav_links
+              li(class='crumb')
+                span
+                  if value.isLink
+                    a(href='/') #{value.title}
+                  else
+                    span #{value.title}
+
+                  if index < nav_links.length-1  
+                    span(class='arrow') >
+
+    
+    //- probably not going to reassign this content
+    block user-links 
+      .user-links
+        ul(class='actions')
+          li 
+            a(href='/post') post
+          | &nbsp; | &nbsp;
+          li
+            a(href='/account') account
+
+  section(class='content')
+    block main-content
+
+
+  block footer
+    include ../constants/footer

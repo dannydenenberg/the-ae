@@ -49,7 +49,5 @@ Simply start with writing your TypeScript code in the `server` directory
 │       ├── error.ejs
 │       └── index.ejs
 ├── tsconfig.json
-└── typings.json
 ```
 
-*This module was made possible thanks to [LearnMEAN.com](https://www.learnmean.com/)*

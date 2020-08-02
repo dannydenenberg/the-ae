@@ -1,33 +1,33 @@
 /**
  * Module dependencies.
  */
-import * as app from '../app';
 import * as http from 'http';
 import * as debug from 'debug';
+import * as app from '../app';
 
 // binding to console
-let log = debug('modern-express:server');
+const log = debug('modern-express:server');
 log.log = console.log.bind(console);
 
 /**
  * Get port from environment and store in Express.
  */
-let PORT = process.env.PORT || '3000';
+const PORT = process.env.PORT || '3000';
 
 function getPort(val) {
-    /**
+  /**
      * Normalize a port into a number, string, or false.
      */
-    const port = parseInt(val, 10);
-    if (isNaN(port)) {
-        // named pipe
-        return val;
-    }
-    if (port >= 0) {
-        // port number
-        return port;
-    }
-    return false;
+  const port = parseInt(val, 10);
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+  return false;
 }
 
 app.set('port', PORT);
@@ -40,34 +40,36 @@ const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen(PORT);
+server.listen(PORT, () => {
+  console.log(`listening on http://localhost:${PORT}`);
+});
 
 server.on('error', (error: NodeJS.ErrnoException) => {
-    /**
+  /**
      * Event listener for HTTP server "error" event.
      */
-    if (error.syscall !== 'listen') {
-        throw error;
-    }
-    const bind = typeof PORT === 'string' ? `Pipe ${PORT}` : `Port ${PORT}`;
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-        case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
-            process.exit(1);
-        case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
-            process.exit(1);
-        default:
-            throw error;
-    }
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  const bind = typeof PORT === 'string' ? `Pipe ${PORT}` : `Port ${PORT}`;
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(`${bind} requires elevated privileges`);
+      process.exit(1);
+    case 'EADDRINUSE':
+      console.error(`${bind} is already in use`);
+      process.exit(1);
+    default:
+      throw error;
+  }
 });
 
 server.on('listening', () => {
-    /**
+  /**
      * Event listener for HTTP server "listening" event.
      */
-    const addr = server.address();
-    const bind = (typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`);
-    log(`Listening on ${bind}`);
+  const addr = server.address();
+  const bind = (typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`);
+  log(`Listening on ${bind}`);
 });
