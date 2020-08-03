@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "node node_modules/.bin/webpack --config config/webpack.config.js",
-    "start": "npm run build && node dist/compiled",
+    "start": "node dist/compiled",
     "dev": "./node_modules/.bin/nodemon"
   },
   "nodemonConfig": {
