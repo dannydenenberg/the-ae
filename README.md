@@ -1,3 +1,7 @@
+Deployed to heroku AND github.
+
+`git push heroku master` --> this makes the build and runs the start script.
+
 ### Modern Express | Easy starter project for writing modern Express Applications using TypeScript and Webpack -- UPDATED 2020
 
 This project is used to quickly get started with Webpack using Express and TypeScript. The intention of this project is to learn to use Webpack with out getting bogged down in the details of configuring Webpack. Below is a list of the outcomes of this project.
