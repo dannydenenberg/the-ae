@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "node node_modules/webpack/bin/webpack.js --config config/webpack.config.js",
-    "start": "npm run build && node build/compiled",
+    "start": "npm run build && node dist/compiled",
     "dev": "./node_modules/.bin/nodemon"
   },
   "nodemonConfig": {
