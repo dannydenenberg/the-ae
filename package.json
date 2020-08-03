@@ -15,7 +15,7 @@
     "dev": "./node_modules/.bin/nodemon"
   },
   "nodemonConfig": {
-    "exec": "npm start",
+    "exec": "npm run build && npm start",
     "watch": [
       "app.ts",
       "server/",
