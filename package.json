@@ -2,9 +2,6 @@
   "name": "webpack-express-typescript",
   "version": "1.0.0",
   "description": "Easy starter project for writing modern Express Applications using TypeScript, and Webpack",
-  "engines": {
-    "node": "10.x"
-  },
   "private": true,
   "directories": {
     "test": "tests"
