@@ -4,9 +4,19 @@ import * as logger from 'morgan';
 import * as root from 'app-root-path';
 import * as cookieParser from 'cookie-parser';
 import * as rateLimit from 'express-rate-limit';
+import * as dotenv from 'dotenv';
+import * as mongoose from 'mongoose';
 import * as routes from './server/routes';
 
 const app = express();
+
+// config vars
+dotenv.config();
+
+// initialize mongo
+const { DATABASE_URL, DATABASE_NAME } = process.env;
+const DATABASE_URI = `${DATABASE_URL}/${DATABASE_NAME}`;
+mongoose.connect(DATABASE_URI, { useNewUrlParser: true });
 
 // Enable if behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
 // see https://expressjs.com/en/guide/behind-proxies.html

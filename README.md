@@ -1,57 +1,33 @@
-Deployed to heroku AND github.
+# The Academia Exchange
 
-`git push heroku master` --> this makes the build and runs the start script.
+A network for students.
 
-### Modern Express | Easy starter project for writing modern Express Applications using TypeScript and Webpack -- UPDATED 2020
+- `areas, posts, users` are referenced by their objectid
+- when finding the ID of a mongoose document after saving, you must set the id before--in the object: `_id: new mongoose.Types.ObjectId()`
+  - look up mongoose [populate](https://mongoosejs.com/docs/populate.html)
 
-This project is used to quickly get started with Webpack using Express and TypeScript. The intention of this project is to learn to use Webpack with out getting bogged down in the details of configuring Webpack. Below is a list of the outcomes of this project.
-
-1. Automates the task of setting up Webpack
-2. Cleanly installs and setups Webpack with out polluting the global system scope
-3. Creates basic Express project to write TypeScript
-4. Cleanly builds TypeScript code into a build directory
-5. Stores and Saves Typings for VSCode
-6. Uses `ejs` as the templating engine
-
-**Setup**
----
-**[Clone this Repository](https://github.com/jsecademy/webpack-express-typescript/archive/master.zip)**
+## Enviornment Variables
 
 ```
-npm install
+DATABASE_NAME=ae
+DATABASE_URL=mongodb://localhost:27017
 ```
 
-**Run Builds**
----
-```
-npm run build
-```
+## Routing
 
-**Run Application**
----
-```
-npm start
-```
-
-**Getting started with this module**
----
-Simply start with writing your TypeScript code in the `server` directory
-
-```
-├── app.ts
-├── bin
-│   └── www.ts
-├── build
-│   └── compiled
-├── config
-│   └── webpack.config.js
-├── package.json
-├── README.md
-├── server
-│   ├── routes.ts
-│   └── views
-│       ├── error.ejs
-│       └── index.ejs
-├── tsconfig.json
-```
-
+- `/` --  
+  Redirects to --> `/~:area` depending on the location of the request. If no location is provided, a random or close one will be chosen.
+- `/~:area` --  
+  describes school/area
+  - `/search/:category?postedToday=1&hasPic=1&searchTitles=1` --  
+    URL parameters are **optional**; they should be present on the search page.  
+    **NOTE:** the `category` variable is a unique three letter or one letter identifier for a CATECORY or TYPE (respectively); both will have to be searched to identify which is being queried. If it is a type, ALL categories for that are in the type will be searched.
+  - `/p/:shortTitle/:post_id` --  
+    The shortTitle is simply for readability of URL.  
+    The post_id is simply right from the database.
+- `/post` --  
+  creates a new post and redirects to ˅
+  - `/:account_id/:post_id?s=type|cat|edit|geo|preview` --  
+    this is creating a new post or referencing an old one. URL argument **is** required.
+- `/account` --  
+  check-for/validate cookie on backend and either return logon page or account home
