@@ -4,6 +4,11 @@
 
 In this simple example, we integrate Apollo seamlessly with [Next.js data fetching methods](https://nextjs.org/docs/basic-features/data-fetching) to fetch queries in the server and hydrate them in the browser.
 
+## Notes on dev
+
+* MUST use `async function getServerSideProps()` for apollo graphql requests--b/c if mongodb is changed, the page must reflect the new information
+* schemas should export models using `export default mongoose.models.User || mongoose.model('User', UserSchema)` as to not recreate already created models (which throws errors). [see this](https://stackoverflow.com/questions/19051041/cannot-overwrite-model-once-compiled-mongoose/43761258#43761258)
+
 ## How to use
 
 ### Using `create-next-app`

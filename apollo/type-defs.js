@@ -8,6 +8,10 @@ export const typeDefs = gql`
   }
 
   type Query {
-    viewer: User
+    people: [User]
+  }
+
+  type Mutation {
+    make(id: ID, name: String!, status: String!): User
   }
 `

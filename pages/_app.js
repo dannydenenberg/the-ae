@@ -1,7 +1,8 @@
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../apollo/client'
+import 'normalize.css'
 
-export default function App({ Component, pageProps }) {
+export default function App ({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState)
 
   return (

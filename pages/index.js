@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { useQuery } from '@apollo/client'
 import { initializeApollo } from '../apollo/client'
 
-const ViewerQuery = gql`
-  query ViewerQuery {
-    viewer {
+const PeopleQuery = gql`
+  query PeopleQuery {
+    people {
       id
       name
       status
@@ -15,31 +15,49 @@ const ViewerQuery = gql`
 
 const Index = () => {
   const {
-    data: { viewer },
-  } = useQuery(ViewerQuery)
+    data: { people }
+  } = useQuery(PeopleQuery)
+
+  console.log(people)
 
   return (
     <div>
-      You're signed in as {viewer.name} and you're {viewer.status} goto{' '}
-      <Link href="/about">
-        <a>static</a>
-      </Link>{' '}
-      page.
+      <div>one sec <Link href='/about'><a>man...</a></Link></div>
+
+      <ul>
+        {people.map(person => {
+          return (
+            <li key={person.id}>
+              {person.name} is <strong>{person.status}</strong>
+              <code> ({person.id})</code>
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
+  // return (
+  //   <div>
+  //     You're signed in as {person.name} and you're {person.status} goto{' '}
+  //     <Link href="/about">
+  //       <a>static</a>
+  //     </Link>{' '}
+  //     page.
+  //   </div>
+  // )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps () {
   const apolloClient = initializeApollo()
 
   await apolloClient.query({
-    query: ViewerQuery,
+    query: PeopleQuery
   })
 
   return {
     props: {
-      initialApolloState: apolloClient.cache.extract(),
-    },
+      initialApolloState: apolloClient.cache.extract()
+    }
   }
 }
 
