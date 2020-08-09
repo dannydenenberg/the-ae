@@ -19,6 +19,7 @@ const Index = () => {
   } = useQuery(PeopleQuery)
 
   console.log(people)
+  console.log('people gotten')
 
   return (
     <div>
@@ -36,15 +37,6 @@ const Index = () => {
       </ul>
     </div>
   )
-  // return (
-  //   <div>
-  //     You're signed in as {person.name} and you're {person.status} goto{' '}
-  //     <Link href="/about">
-  //       <a>static</a>
-  //     </Link>{' '}
-  //     page.
-  //   </div>
-  // )
 }
 
 export async function getServerSideProps () {

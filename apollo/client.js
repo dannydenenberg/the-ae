@@ -3,7 +3,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client'
 
 let apolloClient
 
-function createIsomorphLink() {
+function createIsomorphLink () {
   if (typeof window === 'undefined') {
     const { SchemaLink } = require('@apollo/client/link/schema')
     const { schema } = require('./schema')
@@ -12,20 +12,20 @@ function createIsomorphLink() {
     const { HttpLink } = require('@apollo/client/link/http')
     return new HttpLink({
       uri: '/api/graphql',
-      credentials: 'same-origin',
+      credentials: 'same-origin'
     })
   }
 }
 
-function createApolloClient() {
+function createApolloClient () {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: createIsomorphLink(),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache()
   })
 }
 
-export function initializeApollo(initialState = null) {
+export function initializeApollo (initialState = null) {
   const _apolloClient = apolloClient ?? createApolloClient()
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
@@ -41,7 +41,7 @@ export function initializeApollo(initialState = null) {
   return _apolloClient
 }
 
-export function useApollo(initialState) {
+export function useApollo (initialState) {
   const store = useMemo(() => initializeApollo(initialState), [initialState])
   return store
 }
