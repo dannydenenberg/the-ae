@@ -1,11 +1,18 @@
 <script>
+  import { text } from "svelte/internal";
+
   let error_boolean = false;
 
   async function handleSubmit(event) {
-    console.log(event);
-    console.log(event.target);
-    console.log(event.target.email.value);
-    console.log(event.target.password.value);
+    let email = event.target.email.value;
+    let password = event.target.password.value;
+
+    console.log(email, password);
+
+    // console.log(event);
+    // console.log(event.target);
+    // console.log(event.target.email.value);
+    // console.log(event.target.password.value);
   }
 
   function validateMessageEmail(event) {
@@ -16,6 +23,8 @@
     } else if (textbox.validity.typeMismatch) {
       error_boolean = true;
       textbox.setCustomValidity("please enter a valid email address");
+    } else if (textbox.value === "what") {
+      textbox.setCustomValidity("not great");
     } else {
       textbox.setCustomValidity("");
     }
@@ -30,13 +39,13 @@
   on:input={validateMessageEmail}>
   <label for="email">Email</label>
   <input required type="email" id="email" />
-  <br/>
-  {#if error_boolean}
-    <pre>OH NO! AN ERRROR!</pre>
-  {/if}
-
+  <br />
   <label for="password">Password</label>
   <input required type="password" id="password" />
 
   <button type="submit">Create account</button>
+
+  {#if error_boolean}
+    <pre>OH NO! AN ERRROR!</pre>
+  {/if}
 </form>

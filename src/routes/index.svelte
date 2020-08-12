@@ -2,14 +2,9 @@
   import { HELLO, client, DO } from "./../graphql/client";
 
   export async function preload(page, session) {
-    console.log("in server???");
-
     // let data = await client.query({ query: HELLO });
     let data = await client.mutate({ mutation: DO });
     return data;
-
-    // console.log("COOKIES:");
-    // console.log(session.cookies);
   }
 </script>
 

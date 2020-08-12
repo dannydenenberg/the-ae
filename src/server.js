@@ -9,9 +9,13 @@ import debugMiddleware from "./utils/debug";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+import startDB from "./utils/start-database";
 
 /** Load config vars for development purposes. **/
 dotenv.config();
+
+/** Start the Database **/
+startDB();
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
@@ -21,7 +25,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-  }),
+  })
 );
 
 /** Set up GraphQL **/
@@ -48,7 +52,7 @@ app.use(
   sirv("static", {
     dev,
   }),
-  sapper.middleware(),
+  sapper.middleware()
 );
 
 app.use(debugMiddleware);
