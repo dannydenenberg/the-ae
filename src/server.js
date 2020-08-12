@@ -17,6 +17,7 @@ let m = new Kitty({
 });
 
 m.save((err) => {
+  // here's how to access the required message from a mongoose error
   if (err) console.log(err.errors.name.properties.message);
 });
 
