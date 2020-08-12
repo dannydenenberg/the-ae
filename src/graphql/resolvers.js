@@ -5,7 +5,7 @@ const resolvers = {
   Query: {
     hello: (parent, args, { req, res }, info) => {
       console.log("HERE ARE 🍪:", JSON.stringify(req.cookies));
-      res.cookie("444", "den");
+      res.cookie("SHOULDN't bee HER", "den2", { httpOnly: true });
       return `hey george washington, it's ${new Date()}`;
     },
   },

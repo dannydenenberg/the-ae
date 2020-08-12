@@ -8,6 +8,8 @@ The default [Sapper](https://github.com/sveltejs/sapper) template, available for
 
 - I set cookies through graphql resolvers. This only sets cookies when the request comes from the client and NOT a graphqIql program.
 
+- jwt/tokens are sent to client as `httpOnly` cookies
+
 ### Using `degit`
 
 [`degit`](https://github.com/Rich-Harris/degit) is a scaffolding tool that lets you create a directory from a branch in a repository. Use either the `rollup` or `webpack` branch in `sapper-template`:
