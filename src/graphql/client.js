@@ -9,7 +9,7 @@ const baseURL =
 
 export const client = new ApolloClient({
   uri: `${baseURL}/graphql`,
-  fetch, // specify how to fetch in a node env
+  fetch, // specify how to fetch in a node env.
   credentials: "include",
   // credentials: "same-origin",
 });
