@@ -7,7 +7,8 @@ The default [Sapper](https://github.com/sveltejs/sapper) template, available for
 ### Notes
 
 - I set cookies through graphql resolvers. This only sets cookies when the request comes from the client and NOT a graphqIql program.
-
+- process.env needs to have:
+  1. `JWT_TOKEN_SECRET`
 - jwt/tokens are sent to client as `httpOnly` cookies
 
 ### Using `degit`

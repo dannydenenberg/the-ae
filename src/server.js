@@ -8,6 +8,10 @@ import resolvers from "./graphql/resolvers";
 import debugMiddleware from "./utils/debug";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import dotenv from "dotenv";
+
+/** Load config vars for development purposes. **/
+dotenv.config();
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
