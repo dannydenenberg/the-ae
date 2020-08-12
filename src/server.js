@@ -10,6 +10,15 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import startDB from "./utils/start-database";
+import Kitty from "./models/kitty.model";
+
+let m = new Kitty({
+  age: 12,
+});
+
+m.save((err) => {
+  if (err) console.log(err.errors.name.properties.message);
+});
 
 /** Load config vars for development purposes. **/
 dotenv.config();
