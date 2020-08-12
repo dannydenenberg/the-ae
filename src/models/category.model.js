@@ -13,10 +13,12 @@ housing
 ...
  */
 export const SubCategorySchema = new mongoose.Schema({
+  // short, 3 letter abbreviation
   abbreviation: {
     type: String,
     required: [true, "A sub category needs an abbreviation"],
   },
+  // short description
   description: {
     type: String,
     required: [true, "A sub category needs a description"],
@@ -24,10 +26,12 @@ export const SubCategorySchema = new mongoose.Schema({
 });
 
 export const CategorySchema = new mongoose.Schema({
+  // short, 3 letter abbreviation
   abbreviation: {
     type: String,
     required: [true, "A category needs an abbreviation"],
   },
+  // short description
   description: {
     type: String,
     required: [true, "A category needs a description"],
