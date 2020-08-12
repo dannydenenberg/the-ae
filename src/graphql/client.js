@@ -2,7 +2,7 @@ import ApolloClient, { gql } from "apollo-boost";
 import fetch from "node-fetch";
 
 const developmentURL = "http://localhost:3000";
-const productionURL = "https://the-ae.vercel.app/";
+const productionURL = "https://the-ae.herokuapp.com";
 
 const baseURL =
   process.env.NODE_ENV == "development" ? developmentURL : productionURL;
