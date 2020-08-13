@@ -5,6 +5,12 @@ const typeDefs = gql`
     hello: String
   }
 
+  type Area {
+    hostname: String!
+    lat: Float!
+    lon: Float!
+  }
+
   type Mutation {
     do: String
   }

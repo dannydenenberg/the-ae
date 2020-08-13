@@ -9,6 +9,10 @@ export const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
+  // TODO: 
+  posts: {
+    type: 
+  }
   // ISO 639-1 language ID
   preferedLanguage: {
     type: String,
