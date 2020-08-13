@@ -26,7 +26,7 @@ export const SubCategorySchema = new mongoose.Schema({
 });
 
 export const CategorySchema = new mongoose.Schema({
-  // short, 3 letter abbreviation
+  // short, UNIQUE 3 letter abbreviation
   abbreviation: {
     type: String,
     required: [true, "A category needs an abbreviation"],

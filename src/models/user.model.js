@@ -11,7 +11,7 @@ export const UserSchema = new mongoose.Schema({
   },
   // TODO: 
   posts: {
-    type: 
+    type: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
   }
   // ISO 639-1 language ID
   preferedLanguage: {

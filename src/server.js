@@ -14,7 +14,10 @@ import Kitty from "./models/kitty.model";
 
 let m = new Kitty({
   age: 12,
+  // name: "danoo",
 });
+
+console.log("id: ", m._id);
 
 m.save((err) => {
   // here's how to access the required message from a mongoose error

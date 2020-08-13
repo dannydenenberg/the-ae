@@ -11,9 +11,11 @@ export const PostSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  // TODO: finish this
-  // id of category
-  category,
+  // short, UNIQUE 3 letter abbreviation of the category
+  category: {
+    type: String,
+    required: [true, "A category needs an abbreviation"],
+  },
   // manually set this field with Date.now()
   createdAt: {
     type: Date,
