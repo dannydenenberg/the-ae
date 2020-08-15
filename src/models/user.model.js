@@ -9,6 +9,10 @@ export const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
+  verified: {
+    type: Boolean,
+    required: [true, "Must know if user is verified"],
+  },
   // TODO:
   posts: {
     type: [{ type: Schema.Types.ObjectId, ref: "Post" }],

@@ -14,6 +14,7 @@ The default [Sapper](https://github.com/sveltejs/sapper) template, available for
   4. `GOOGLE_STORAGE_JSON_AUTHORIZATION`={"type":"service_account","project_id":"the-acade...
 - jwt/tokens are sent to client as `httpOnly` cookies
 - images uploaded are placed in the `/uploads` directory at the **root** of the project
+- implement gsuite for theae.org email authentication **last** because that requires buying an actual domain. for now, manually change the `verified` property to true.
 
 ### Using `degit`
 
