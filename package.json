@@ -13,8 +13,10 @@
     "deploy": "make deploy"
   },
   "dependencies": {
+    "@google-cloud/storage": "^5.2.0",
     "apollo-boost": "^0.4.9",
     "apollo-server-express": "^2.16.1",
+    "app-root-path": "^3.0.0",
     "compression": "^1.7.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -22,8 +24,10 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mime": "^2.4.6",
     "mongoose": "^5.9.28",
     "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "node-fetch": "^2.6.0",
     "normalize.css": "^8.0.1",
     "polka": "next",

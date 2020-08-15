@@ -11,7 +11,9 @@ The default [Sapper](https://github.com/sveltejs/sapper) template, available for
   1. `JWT_TOKEN_SECRET`=ab3ih2b3ij90aj...
   2. `DB_SERVER`=mongodb://username:password@host:port
   3. `DB_NAME`=theae
+  4. `GOOGLE_STORAGE_JSON_AUTHORIZATION`={"type":"service_account","project_id":"the-acade...
 - jwt/tokens are sent to client as `httpOnly` cookies
+- images uploaded are placed in the `/uploads` directory at the **root** of the project
 
 ### Using `degit`
 

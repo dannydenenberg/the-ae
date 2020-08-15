@@ -11,6 +11,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import startDB from "./utils/start-database";
 import Kitty from "./models/kitty.model";
+import { uploadType } from "./utils/multer";
+import { uploadFiles } from "./utils/google-storage";
 
 let m = new Kitty({
   age: 12,
@@ -38,8 +40,21 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-  })
+  }),
 );
+
+app.get("/poopoo", (req, res) => {
+  res.send("yes poopoo is smelly (sol doesn't) wipe");
+});
+
+app.post("/files", uploadType, async (req, res) => {
+  let files = req.files.map((file) => file.filename);
+  console.log(files);
+
+  await uploadFiles(files);
+
+  res.send("all done baby");
+});
 
 /** Set up GraphQL **/
 const server = new ApolloServer({
@@ -65,7 +80,7 @@ app.use(
   sirv("static", {
     dev,
   }),
-  sapper.middleware()
+  sapper.middleware(),
 );
 
 app.use(debugMiddleware);
