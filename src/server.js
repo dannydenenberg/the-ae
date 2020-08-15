@@ -13,6 +13,15 @@ import startDB from "./utils/start-database";
 import Kitty from "./models/kitty.model";
 import { uploadType } from "./utils/multer";
 import { uploadFiles } from "./utils/google-storage";
+import fs from "fs";
+import root from "app-root-path";
+
+/** Create uploads file if not already created */
+try {
+  fs.mkdirSync(`${root.path}/uploads`);
+} catch (err) {
+  console.log("uploads file already created");
+}
 
 let m = new Kitty({
   age: 12,
@@ -40,7 +49,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-  }),
+  })
 );
 
 app.get("/poopoo", (req, res) => {
@@ -80,7 +89,7 @@ app.use(
   sirv("static", {
     dev,
   }),
-  sapper.middleware(),
+  sapper.middleware()
 );
 
 app.use(debugMiddleware);
