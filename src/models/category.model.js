@@ -17,6 +17,7 @@ export const SubCategorySchema = new mongoose.Schema({
   abbreviation: {
     type: String,
     required: [true, "A sub category needs an abbreviation"],
+    unique: [true, "The abbreviation MUST be unique for referencing purposes"],
   },
   // short description
   description: {
@@ -30,6 +31,7 @@ export const CategorySchema = new mongoose.Schema({
   abbreviation: {
     type: String,
     required: [true, "A category needs an abbreviation"],
+    unique: [true, "The abbreviation MUST be unique for referencing purposes"],
   },
   // short description
   description: {
