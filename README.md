@@ -1,4 +1,4 @@
-# sapper-template
+# the ae
 
 The default [Sapper](https://github.com/sveltejs/sapper) template, available for Rollup and webpack.
 
@@ -6,6 +6,7 @@ The default [Sapper](https://github.com/sveltejs/sapper) template, available for
 
 ### Notes
 
+- https MUST be enforced or `cors` will scream
 - I set cookies through graphql resolvers. This only sets cookies when the request comes from the client and NOT a graphqIql program.
 - process.env needs to have (`name`=example):
   1. `JWT_TOKEN_SECRET`=ab3ih2b3ij90aj...
