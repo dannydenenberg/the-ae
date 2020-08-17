@@ -15,6 +15,7 @@ import { uploadType } from "./utils/multer";
 import { uploadFiles } from "./utils/google-storage";
 import fs from "fs";
 import root from "app-root-path";
+import Area from "./models/area.model";
 
 /** Create uploads file if not already created */
 try {
@@ -23,17 +24,23 @@ try {
   console.log("uploads file already created");
 }
 
-let m = new Kitty({
-  age: 12,
-  // name: "danoo",
-});
+// let uno = {
+//   hostname: "uno",
+//   lat: 41.2580268,
+//   lon: -96.01289,
+//   country: "us",
+//   region: "nebraska",
+//   description: "University of Nebraska at Omaha",
+//   timezone: "America/Chicago",
+// };
+// let m = new Area(uno);
 
-console.log("id: ", m._id);
+// console.log("id: ", m._id);
 
-m.save((err) => {
-  // here's how to access the required message from a mongoose error
-  if (err) console.log(err.errors.name.properties.message);
-});
+// m.save((err) => {
+//   // here's how to access the required message from a mongoose error
+//   if (err) console.log(err.errors.name.properties.message);
+// });
 
 /** Load config vars for development purposes. **/
 dotenv.config();
@@ -49,7 +56,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-  })
+  }),
 );
 
 app.get("/poopoo", (req, res) => {
@@ -89,7 +96,7 @@ app.use(
   sirv("static", {
     dev,
   }),
-  sapper.middleware()
+  sapper.middleware(),
 );
 
 app.use(debugMiddleware);

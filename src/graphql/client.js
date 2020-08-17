@@ -1,5 +1,6 @@
 import ApolloClient, { gql } from "apollo-boost";
 import fetch from "node-fetch";
+import { onError } from "@apollo/client/link/error";
 
 const developmentURL = "http://localhost:3000";
 const productionURL = "https://the-ae.herokuapp.com";

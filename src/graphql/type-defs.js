@@ -5,6 +5,23 @@ const typeDefs = gql`
     hello: String
   }
 
+  input UserINPUT {
+    email: String!
+    password: String!
+    preferedLanguage: String
+    preferedArea: String
+  }
+
+  type User {
+    verified: Boolean!
+    email: String!
+    password: String!
+    preferedLanguage: String
+    preferedArea: String
+    _id: ID!
+    verificationCodes: [String]!
+  }
+
   type Area {
     hostname: String!
     lat: Float!
@@ -13,6 +30,8 @@ const typeDefs = gql`
 
   type Mutation {
     do: String
+    verifyUser(_id: ID!, code: String!): Boolean
+    makeUser(user: UserINPUT): User
   }
 `;
 

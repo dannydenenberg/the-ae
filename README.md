@@ -15,6 +15,7 @@ The default [Sapper](https://github.com/sveltejs/sapper) template, available for
 - jwt/tokens are sent to client as `httpOnly` cookies
 - images uploaded are placed in the `/uploads` directory at the **root** of the project
 - implement gsuite for theae.org email authentication **last** because that requires buying an actual domain. for now, manually change the `verified` property to true.
+- graphql resolvers use `promises` to handle gathering and returning data
 
 ### Using `degit`
 

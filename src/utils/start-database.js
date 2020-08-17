@@ -13,7 +13,7 @@ const startDB = () => {
     (err) => {
       if (err) console.log("🌽 there was an error in database connection");
       else console.log("🎉 db started");
-    }
+    },
   );
 };
 

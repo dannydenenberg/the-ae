@@ -4,18 +4,31 @@ export const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Email is required"],
+    unique: [true, "Email MUST be unique"],
   },
   password: {
     type: String,
     required: [true, "Password is required"],
   },
+  verificationCodes: {
+    type: [String],
+    required: [true, "Codes must be here even if empty"],
+    // random new code = random number "GQL" current time
+    default: [
+      `${Math.floor(
+        Math.random() * 239487139 + 1001,
+      )}GQL${new Date().getTime()}`,
+    ],
+  },
   verified: {
     type: Boolean,
     required: [true, "Must know if user is verified"],
+    default: false,
   },
   // TODO:
   posts: {
-    type: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+    default: [],
   },
   // ISO 639-1 language ID
   preferedLanguage: {
