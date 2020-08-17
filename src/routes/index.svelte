@@ -31,6 +31,15 @@ You should
 or see
 <a href="/form">forms</a>
 
+<ul>
+  <li>
+    <a href="/join">join</a>
+  </li>
+  <li>
+    <a href="/verify?_id=jas8f&code=asdl">verify</a>
+  </li>
+</ul>
+
 <p>
   or check out
   <a href="/files">files.</a>

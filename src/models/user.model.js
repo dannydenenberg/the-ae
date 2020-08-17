@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 export const UserSchema = new mongoose.Schema({
   email: {
@@ -16,7 +17,7 @@ export const UserSchema = new mongoose.Schema({
     // random new code = random number "GQL" current time
     default: [
       `${Math.floor(
-        Math.random() * 239487139 + 1001
+        Math.random() * 239487139 + 1001,
       )}GQL${new Date().getTime()}`,
     ],
   },
@@ -50,11 +51,12 @@ export const UserSchema = new mongoose.Schema({
 });
 
 /************************************************************
-******** Uncomment for Password Hashing features. ***********
-*************************************************************
+ ******** Password Hashing features. ***********
+ *************************************************************/
+/** NOTE: you CANNOT use arrow functions in mongoose methods. */
 
-// Before user is saved, hash password 
-UserSchema.pre("save", (next) => {
+// Before user is saved, hash password
+UserSchema.pre("save", function (next) {
   const SALT_WORK_FACTOR = 10;
   let user = this;
 
@@ -76,13 +78,13 @@ UserSchema.pre("save", (next) => {
   });
 });
 
-UserSchema.methods.comparePassword = (candidatePassword, cb) => {
+// if isMatch == true, it worked. Otherwise, no
+UserSchema.methods.comparePassword = function (candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
     if (err) return cb(err);
     cb(null, isMatch);
   });
 };
-**/
 
 const User = mongoose.model("User", UserSchema);
 export default User;

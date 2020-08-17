@@ -1,33 +1,51 @@
-<script>
+<script context="module">
   import { client } from "./../graphql/client";
   import { gql } from "apollo-boost";
+
+  const VALIDATE_TOKEN = gql`
+    query ValidateUserToken {
+      validateToken(a: "String")
+    }
+  `;
+
+  export async function preload(page, session) {
+    client
+      .query({ query: VALIDATE_TOKEN })
+      .then((data) => {
+        console.log(`DATA!`, data);
+      })
+      .catch((error) => {
+        console.log("error!!", error);
+      });
+  }
+</script>
+
+<script>
   import AlertBox from "./../components/AlertBox.svelte";
 
-  const MAKE_USER = gql`
-    mutation CreateMessage($user: UserInput) {
-      makeUser(user: $user) {
-        _id
-      }
+  const LOG_ON_USER = gql`
+    mutation LogOnUser($user: UserInput) {
+      logOn(user: $user)
     }
   `;
 
   let error_boolean = false;
   let graphqlERROR = false;
-  let doneSigningUp = false;
+  let doneLoggingOn = false;
 
   /** Data **/
   let email;
   let password;
 
   function handleSubmit(event) {
-    let res = client
+    client
       .mutate({
-        mutation: MAKE_USER,
+        mutation: LOG_ON_USER,
         variables: { user: { email, password } },
       })
       .then((data) => {
         console.log(data);
-        doneSigningUp = true;
+        doneLoggingOn = true;
       })
       .catch((error) => {
         console.log("errors!!!");
@@ -53,9 +71,9 @@
   }
 </script>
 
-<h1>Join the ae</h1>
+<h1>Log on</h1>
 
-{#if !doneSigningUp}
+{#if !doneLoggingOn}
   {#if graphqlERROR}
     <AlertBox>There was an error in creating your account.</AlertBox>
   {/if}
@@ -80,10 +98,6 @@
   </form>
 {/if}
 
-{#if doneSigningUp}
-  <p>
-    Your account was created. Please check your email for a
-    <strong>verification link</strong>
-    .
-  </p>
+{#if doneLoggingOn}
+  <p>You are logged on.</p>
 {/if}

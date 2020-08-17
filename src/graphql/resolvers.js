@@ -1,11 +1,20 @@
 import User from "./../models/user.model";
 import { sendVerificationCodeEmail } from "./../utils/email";
+import { JWT_COOKIE_NAME, verifyToken, generateToken } from "./../utils/jwt";
 
 /** Here are the parameters all resolvers can take:
  * (parent, args, context, info)
  */
 const resolvers = {
   Query: {
+    validateToken: (parent, args, { req, res }, info) => {
+      return new Promise((resolve, reject) => {
+        console.log(req.cookies[JWT_COOKIE_NAME]);
+        verifyToken(req.cookies[JWT_COOKIE_NAME])
+          .then((data) => resolve(true))
+          .catch((error) => reject(error));
+      });
+    },
     hello: (parent, args, { req, res }, info) => {
       // console.log("HERE ARE 🍪:", JSON.stringify(req.cookies));
       // res.cookie(`444 SHOULDN't bee HER`, "den2", {
@@ -19,6 +28,41 @@ const resolvers = {
     },
   },
   Mutation: {
+    // validates email/password. sets httponly cookie
+    logOn: (parent, { user }, { req, res }, info) => {
+      return new Promise((resolve, reject) => {
+        User.findOne({ email: user.email }, (err, doc) => {
+          if (err) {
+            reject(err);
+          }
+
+          if (!doc) {
+            reject("no user matched");
+          } else {
+            // there was a user
+            doc.comparePassword(user.password, (err, isMatch) => {
+              if (err) {
+                reject("there was an error in matching passwords");
+              }
+
+              if (isMatch === true) {
+                // correct password
+                let token = generateToken({ _id: doc._id });
+
+                // set HTTP only cookie
+                res.cookie(JWT_COOKIE_NAME, token, {
+                  httpOnly: true,
+                });
+                resolve(token);
+              } else {
+                reject("password isn't correct");
+              }
+            });
+          }
+        });
+        // resolve("yello2");
+      });
+    },
     // _id and code are gotten from the URL queries of /verify
     // this updates the user's `verified` field to true
     verifyUser: (parent, { _id, code }, { req }, info) => {
@@ -62,7 +106,7 @@ const resolvers = {
 
         newUser.save((err) => {
           if (err) {
-            reject("couldn't create new user");
+            reject(err);
           } else {
             resolve(newUser);
           }
