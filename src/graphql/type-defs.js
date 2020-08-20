@@ -6,6 +6,7 @@ const typeDefs = gql`
   type Query {
     hello: String
     validateToken(a: String): Boolean
+    gatherCategories(a: String): [Category]!
   }
 
   input UserInput {
@@ -23,6 +24,16 @@ const typeDefs = gql`
     preferedArea: String
     _id: ID!
     verificationCodes: [String]!
+  }
+
+  type SubCategory {
+    abbreviation: String!
+    description: String!
+  }
+  type Category {
+    abbreviation: String!
+    description: String!
+    subCategories: [SubCategory]
   }
 
   type Area {

@@ -26,3 +26,9 @@ export const DO = gql`
     do
   }
 `;
+
+export const VALIDATE_TOKEN = gql`
+  query ValidateUserToken {
+    validateToken(a: "String")
+  }
+`;

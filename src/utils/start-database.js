@@ -7,6 +7,7 @@ const startDB = () => {
   if (NODE_ENV === "development") URI = `mongodb://localhost:27017/${DB_NAME}`;
 
   /** Start Database **/
+  mongoose.set("useCreateIndex", true);
   mongoose.connect(
     URI,
     { useNewUrlParser: true, useUnifiedTopology: true },

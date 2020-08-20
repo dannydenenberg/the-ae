@@ -38,6 +38,12 @@ or see
   <li>
     <a href="/verify?_id=jas8f&code=asdl">verify</a>
   </li>
+  <li>
+    <a href="/logon">logon</a>
+  </li>
+  <li>
+    <a href="/make">make</a>
+  </li>
 </ul>
 
 <p>

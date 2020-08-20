@@ -1,12 +1,22 @@
 import User from "./../models/user.model";
 import { sendVerificationCodeEmail } from "./../utils/email";
 import { JWT_COOKIE_NAME, verifyToken, generateToken } from "./../utils/jwt";
+import Category from "./../models/category.model";
 
 /** Here are the parameters all resolvers can take:
  * (parent, args, context, info)
  */
 const resolvers = {
   Query: {
+    /** Return ALL category data. */
+    gatherCategories: (parent, { a }, { req, res }, info) => {
+      return new Promise((resolve, reject) => {
+        Category.find({}, (err, docs) => {
+          if (err) reject(err);
+          resolve(docs);
+        });
+      });
+    },
     validateToken: (parent, args, { req, res }, info) => {
       return new Promise((resolve, reject) => {
         console.log(req.cookies[JWT_COOKIE_NAME]);
