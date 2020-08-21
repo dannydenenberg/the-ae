@@ -1,21 +1,16 @@
 <script context="module">
-  import { client } from "./../graphql/client";
+  import { client, VALIDATE_TOKEN } from "./../graphql/client";
   import { gql } from "apollo-boost";
-
-  const VALIDATE_TOKEN = gql`
-    query ValidateUserToken {
-      validateToken(a: "String")
-    }
-  `;
 
   export async function preload(page, session) {
     client
       .query({ query: VALIDATE_TOKEN })
       .then((data) => {
-        console.log(`DATA!`, data);
+        // console.log(`DATA!`, data);
+        console.log("worked");
       })
       .catch((error) => {
-        console.log("error!!", error);
+        console.log("error!!");
       });
   }
 </script>

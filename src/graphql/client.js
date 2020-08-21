@@ -11,7 +11,7 @@ const baseURL =
 export const client = new ApolloClient({
   uri: `${baseURL}/graphql`,
   fetch, // specify how to fetch in a node env.
-  credentials: "include",
+  credentials: "same-origin",
   // credentials: "same-origin",
 });
 
@@ -29,6 +29,9 @@ export const DO = gql`
 
 export const VALIDATE_TOKEN = gql`
   query ValidateUserToken {
-    validateToken(a: "String")
+    validateToken(a: "String") {
+      iat
+      _id
+    }
   }
 `;

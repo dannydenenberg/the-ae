@@ -68,7 +68,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-  }),
+  })
 );
 
 app.get("/poopoo", (req, res) => {
@@ -108,7 +108,7 @@ app.use(
   sirv("static", {
     dev,
   }),
-  sapper.middleware(),
+  sapper.middleware()
 );
 
 app.use(debugMiddleware);

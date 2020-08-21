@@ -17,11 +17,15 @@ const resolvers = {
         });
       });
     },
+    // TODO: at first cookies[jwt-cookiename] is undefined, then a string.
+    // hmmm
     validateToken: (parent, args, { req, res }, info) => {
       return new Promise((resolve, reject) => {
-        console.log(req.cookies[JWT_COOKIE_NAME]);
+        console.log("🎨verifying...");
+        // console.log("headers", req.headers);
+        // console.log(req.cookies[JWT_COOKIE_NAME]);
         verifyToken(req.cookies[JWT_COOKIE_NAME])
-          .then((data) => resolve(true))
+          .then((data) => resolve(data))
           .catch((error) => reject(error));
       });
     },
@@ -99,7 +103,7 @@ const resolvers = {
                   return;
                 }
                 resolve(true);
-              },
+              }
             );
           } else {
             resolve(false);
