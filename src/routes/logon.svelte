@@ -1,20 +1,21 @@
 <script context="module">
   import { client, VALIDATE_TOKEN } from "./../graphql/client";
+  import { JWT_COOKIE_NAME } from "./../utils/constants";
 
   export async function preload(page, session) {
-    console.log("🌎page:");
-    console.log(page);
-    console.log("🐳session:");
-    console.log(session);
-    // client
-    //   .query(VALIDATE_TOKEN)
-    //   .then((data) => {
-    //     // console.log(`DATA!`, data);
-    //     console.log("worked");
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    // console.log("🌎page:");
+    // console.log(page);
+    // console.log("🐳session:");
+    // console.log(session);
+    client
+      .query(VALIDATE_TOKEN, { token: session.cookies[JWT_COOKIE_NAME] })
+      .then((data) => {
+        // console.log(`DATA!`, data);
+        console.log("worked");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 </script>
 

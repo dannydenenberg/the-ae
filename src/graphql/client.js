@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-const developmentURL = "http://127.0.0.1:3000";
+const developmentURL = "http://localhost:3000";
 const productionURL = "https://the-ae.herokuapp.com";
 
 const baseURL =
@@ -42,7 +42,7 @@ class GraphqlClient {
     });
   }
 
-  mutate(mutation, variables) {
+  mutate(mutation, variables = {}) {
     return this.query(mutation, variables);
   }
 }
@@ -62,8 +62,8 @@ export const DO = `
 `;
 
 export const VALIDATE_TOKEN = `
-  query ValidateUserToken {
-    validateToken(a: "String") {
+  query ValidateUserToken($token: String) {
+    validateToken(token: $token) {
       iat
       _id
     }

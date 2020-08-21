@@ -17,14 +17,17 @@ const resolvers = {
         });
       });
     },
-    // TODO: at first cookies[jwt-cookiename] is undefined, then a string.
-    // hmmm
-    validateToken: (parent, args, { req, res }, info) => {
+
+    // Either req.cookies or args.token holds the contents of the jwt token
+    // ^^ depending on whether the request was sent from the server or client.
+    validateToken: (parent, { token }, { req, res }, info) => {
+      const accessToken = req.cookies[JWT_COOKIE_NAME] || token;
+
       return new Promise((resolve, reject) => {
         console.log("🎨verifying...");
         // console.log("headers", req.headers);
         // console.log(req.cookies[JWT_COOKIE_NAME]);
-        verifyToken(req.cookies[JWT_COOKIE_NAME])
+        verifyToken(accessToken)
           .then((data) => resolve(data))
           .catch((error) => reject(error));
       });
@@ -65,6 +68,7 @@ const resolvers = {
 
                 // set HTTP only cookie
                 res.cookie(JWT_COOKIE_NAME, token, {
+                  secure: true,
                   httpOnly: true,
                 });
                 resolve(token);

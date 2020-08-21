@@ -9,6 +9,7 @@ import debugMiddleware from "./utils/debug";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+// import "dotenv/config";
 import startDB from "./utils/start-database";
 import Kitty from "./models/kitty.model";
 import { uploadType } from "./utils/multer";
@@ -68,7 +69,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-  }),
+  })
 );
 
 app.get("/poopoo", (req, res) => {
@@ -110,9 +111,9 @@ app.use(
   }),
   sapper.middleware({
     session: (req, res) => ({
-      cookies: req.headers.cookie,
+      cookies: req.cookies,
     }),
-  }),
+  })
 );
 
 app.use(debugMiddleware);

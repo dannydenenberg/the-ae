@@ -17,6 +17,7 @@ The default [Sapper](https://github.com/sveltejs/sapper) template, available for
 - images uploaded are placed in the `/uploads` directory at the **root** of the project
 - implement gsuite for theae.org email authentication **last** because that requires buying an actual domain. for now, manually change the `verified` property to true.
 - graphql resolvers use `promises` to handle gathering and returning data
+- because sapper's `preload(page, session)` cannot guarentee it will run on the client, a fetch request sent from it cannot guarentee to hold `req.cookies`. Thus, on `fetch` request's sent from `preload(page, session)`, I send cookies through graphql parameters by way of `session.cookies`. the graphql resolver checks for a token like this: `token = req.cookies['cookie-name'] || args.token`. If you are guarenteed to send the fetch request from the client (like a click of a button, etc.), the parameter to the graphql request should be an **empty string**: `""`.
 
 ### Using `degit`
 

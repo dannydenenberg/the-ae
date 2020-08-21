@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+export { JWT_COOKIE_NAME } from "./constants";
 
 dotenv.config();
 
-export const JWT_COOKIE_NAME = "t_ae_1597195308661";
 const JWT_COOKIE_OPTIONS = {
   httpOnly: true,
 };

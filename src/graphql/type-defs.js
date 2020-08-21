@@ -5,7 +5,7 @@ import { gql } from "apollo-server-express";
 const typeDefs = gql`
   type Query {
     hello: String
-    validateToken(a: String): JWTData
+    validateToken(token: String): JWTData
     gatherCategories(a: String): [Category]!
   }
 

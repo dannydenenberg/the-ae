@@ -11,7 +11,7 @@
   export let data;
 
   let send = async () => {
-    let data = await client.query({ query: HELLO });
+    let data = await client.query(HELLO);
     console.log(data);
   };
 </script>
