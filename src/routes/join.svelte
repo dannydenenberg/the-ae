@@ -1,9 +1,8 @@
 <script>
   import { client } from "./../graphql/client";
-  import { gql } from "apollo-boost";
   import AlertBox from "./../components/AlertBox.svelte";
 
-  const MAKE_USER = gql`
+  const MAKE_USER = `
     mutation CreateMessage($user: UserInput) {
       makeUser(user: $user) {
         _id
@@ -21,10 +20,7 @@
 
   function handleSubmit(event) {
     let res = client
-      .mutate({
-        mutation: MAKE_USER,
-        variables: { user: { email, password } },
-      })
+      .mutate(MAKE_USER, { user: { email, password } })
       .then((data) => {
         console.log(data);
         doneSigningUp = true;

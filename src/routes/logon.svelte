@@ -1,16 +1,15 @@
 <script context="module">
   import { client, VALIDATE_TOKEN } from "./../graphql/client";
-  import { gql } from "apollo-boost";
 
   export async function preload(page, session) {
     client
-      .query({ query: VALIDATE_TOKEN })
+      .query(VALIDATE_TOKEN)
       .then((data) => {
         // console.log(`DATA!`, data);
         console.log("worked");
       })
       .catch((error) => {
-        console.log("error!!");
+        console.log(error);
       });
   }
 </script>
@@ -18,7 +17,7 @@
 <script>
   import AlertBox from "./../components/AlertBox.svelte";
 
-  const LOG_ON_USER = gql`
+  const LOG_ON_USER = `
     mutation LogOnUser($user: UserInput) {
       logOn(user: $user)
     }
@@ -34,10 +33,7 @@
 
   function handleSubmit(event) {
     client
-      .mutate({
-        mutation: LOG_ON_USER,
-        variables: { user: { email, password } },
-      })
+      .mutate(LOG_ON_USER, { user: { email, password } })
       .then((data) => {
         console.log(data);
         doneLoggingOn = true;

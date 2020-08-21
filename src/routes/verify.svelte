@@ -1,8 +1,7 @@
 <script context="module">
   import { client } from "./../graphql/client";
-  import { gql } from "apollo-boost";
 
-  const VERIFY_USER = gql`
+  const VERIFY_USER = `
     mutation VerifyUser($_id: ID!, $code: String!) {
       verifyUser(_id: $_id, code: $code)
     }
@@ -12,7 +11,7 @@
   export async function preload(page, session) {
     return new Promise((resolve, reject) => {
       client
-        .mutate({ mutation: VERIFY_USER, variables: page.query })
+        .mutate(VERIFY_USER, page.query)
         .then((data) => {
           resolve(data);
           console.log(`data`, data);

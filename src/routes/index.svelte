@@ -2,7 +2,7 @@
   import { HELLO, client, DO } from "./../graphql/client";
   export async function preload(page, session) {
     // let data = await client.query({ query: HELLO });
-    let data = await client.mutate({ mutation: DO });
+    let data = await client.mutate(DO);
     return data;
   }
 </script>
