@@ -1,6 +1,11 @@
 <script context="module">
   import { client, VALIDATE_TOKEN } from "./../graphql/client";
 
+  /**
+   * sometimes doesn't send cocokies b/c it sends the fetch FROM the server
+   * and the server doesn't hold the cookies
+   */
+
   // gather if user is logged on, if not, redirect
   export async function preload(page, session) {
     try {

@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-const developmentURL = "http://localhost:3000";
+const developmentURL = "http://127.0.0.1:3000";
 const productionURL = "https://the-ae.herokuapp.com";
 
 const baseURL =
@@ -19,6 +19,8 @@ class GraphqlClient {
       // uses node-fetch
       fetch(`${this.server}${this.graphqlRoute}`, {
         method: "POST",
+        // credentials: "same-origin", // for sending cookies
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",

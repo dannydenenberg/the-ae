@@ -66,7 +66,7 @@
 
 {#if !doneLoggingOn}
   {#if graphqlERROR}
-    <AlertBox>There was an error in creating your account.</AlertBox>
+    <AlertBox>There was an error in loggin you in.</AlertBox>
   {/if}
 
   <form
