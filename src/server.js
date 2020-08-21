@@ -108,7 +108,11 @@ app.use(
   sirv("static", {
     dev,
   }),
-  sapper.middleware(),
+  sapper.middleware({
+    session: (req, res) => ({
+      cookies: req.headers.cookie,
+    }),
+  }),
 );
 
 app.use(debugMiddleware);
