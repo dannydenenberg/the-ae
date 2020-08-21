@@ -2,11 +2,6 @@
   import { client, VALIDATE_TOKEN } from "./../graphql/client";
   import { JWT_COOKIE_NAME } from "./../utils/constants";
 
-  /**
-   * sometimes doesn't send cocokies b/c it sends the fetch FROM the server
-   * and the server doesn't hold the cookies
-   */
-
   // gather if user is logged on, if not, redirect
   export async function preload(page, session) {
     try {
@@ -14,9 +9,12 @@
         token: session.cookies[JWT_COOKIE_NAME],
       });
 
+      // logged in and authorized
+      
       console.log("🎻 worked!!");
       console.log(data);
     } catch (e) {
+      // not logged in or not authorized
       console.log("redirect");
       this.redirect(301, "logon");
     }

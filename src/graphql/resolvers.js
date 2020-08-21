@@ -25,8 +25,6 @@ const resolvers = {
 
       return new Promise((resolve, reject) => {
         console.log("🎨verifying...");
-        // console.log("headers", req.headers);
-        // console.log(req.cookies[JWT_COOKIE_NAME]);
         verifyToken(accessToken)
           .then((data) => resolve(data))
           .catch((error) => reject(error));
@@ -107,7 +105,7 @@ const resolvers = {
                   return;
                 }
                 resolve(true);
-              }
+              },
             );
           } else {
             resolve(false);

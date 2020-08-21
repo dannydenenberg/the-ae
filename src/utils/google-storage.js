@@ -6,8 +6,6 @@ import { uploadDirectoryName } from "./multer";
 /** Load config vars for development purposes. **/
 dotenv.config();
 
-console.log("in google storage");
-
 // variables
 const authJSON = JSON.parse(process.env.GOOGLE_STORAGE_JSON_AUTHORIZATION);
 const projectId = "the-academia-exchange";

@@ -64,8 +64,8 @@ export const DO = `
 export const VALIDATE_TOKEN = `
   query ValidateUserToken($token: String) {
     validateToken(token: $token) {
-      iat
       _id
+      iat
     }
   }
 `;

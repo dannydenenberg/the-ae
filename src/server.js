@@ -16,6 +16,7 @@ import { uploadType } from "./utils/multer";
 import { uploadFiles } from "./utils/google-storage";
 import fs from "fs";
 import root from "app-root-path";
+import rateLimit from "express-rate-limit";
 import Area from "./models/area.model";
 
 /** Create uploads file if not already created */
@@ -65,11 +66,23 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+/** Rate Limiting **/
+// Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+// see https://expressjs.com/en/guide/behind-proxies.html
+app.set("trust proxy", 1);
+const limiter = rateLimit({
+  windowMs: 2 * 60 * 1000, // 2 minutes
+  max: 400, // limit each IP to 400 requests per windowMs
+});
+
+//  apply to all requests
+app.use(limiter);
+
 app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-  })
+  }),
 );
 
 app.get("/poopoo", (req, res) => {
@@ -113,7 +126,7 @@ app.use(
     session: (req, res) => ({
       cookies: req.cookies,
     }),
-  })
+  }),
 );
 
 app.use(debugMiddleware);

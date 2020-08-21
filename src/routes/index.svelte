@@ -56,3 +56,5 @@ or see
 <div>
   <button on:click={send}>req</button>
 </div>
+
+<!-- <LoadingDots /> -->
