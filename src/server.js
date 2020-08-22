@@ -17,7 +17,7 @@ import { uploadFiles } from "./utils/google-storage";
 import fs from "fs";
 import root from "app-root-path";
 import rateLimit from "express-rate-limit";
-import Area from "./models/area.model";
+import User from "./models/user.model";
 
 /** Create uploads file if not already created */
 try {
@@ -82,7 +82,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-  }),
+  })
 );
 
 app.get("/poopoo", (req, res) => {
@@ -126,7 +126,7 @@ app.use(
     session: (req, res) => ({
       cookies: req.cookies,
     }),
-  }),
+  })
 );
 
 app.use(debugMiddleware);

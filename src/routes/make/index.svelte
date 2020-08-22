@@ -1,6 +1,6 @@
 <script context="module">
-  import { client, VALIDATE_TOKEN } from "./../graphql/client";
-  import { JWT_COOKIE_NAME } from "./../utils/constants";
+  import { client, VALIDATE_TOKEN } from "../../graphql/client";
+  import { JWT_COOKIE_NAME } from "../../utils/constants";
 
   // gather if user is logged on, if not, redirect
   export async function preload(page, session) {
@@ -9,13 +9,19 @@
         token: session.cookies[JWT_COOKIE_NAME],
       });
 
+      const postID = "hello";
+      const userID = data.data.validateToken._id;
+
       // logged in and authorized
-      
       console.log("🎻 worked!!");
       console.log(data);
+
+      // redirect
+      this.redirect(200, `/make/${userID}/${postID}`);
     } catch (e) {
       // not logged in or not authorized
       console.log("redirect");
+      console.log(e);
       this.redirect(301, "logon");
     }
   }
