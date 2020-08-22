@@ -1,13 +1,12 @@
 <script context="module">
-  import { client, VALIDATE_TOKEN } from "./../../../../graphql/client";
-  import { JWT_COOKIE_NAME } from "./../../../../utils/constants";
+  import { client, VALIDATE_TOKEN } from "../../../graphql/client";
+  import { JWT_COOKIE_NAME } from "../../../utils/constants";
 
   export async function preload(page, session) {
     console.log("🚙PAGE:");
     console.log(page);
 
     let exportedObject = {
-      userID: page.params.userID,
       postID: page.params.postID,
     };
 
@@ -24,7 +23,6 @@
 </script>
 
 <script>
-  export let userID;
   export let postID;
 </script>
 
@@ -35,12 +33,6 @@
 <h1>Make</h1>
 
 <p>
-  Your
-  <strong>user id</strong>
-  is
-  <code>{userID}</code>
-  .
-  <br />
   Your
   <strong>post id</strong>
   is

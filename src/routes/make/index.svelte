@@ -10,14 +10,13 @@
       });
 
       const postID = "hello";
-      const userID = data.data.validateToken._id;
 
       // logged in and authorized
       console.log("🎻 worked!!");
       console.log(data);
 
       // redirect
-      this.redirect(200, `/make/${userID}/${postID}`);
+      this.redirect(200, `/make/${postID}`);
     } catch (e) {
       // not logged in or not authorized
       console.log("redirect");
