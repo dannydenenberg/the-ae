@@ -1,17 +1,11 @@
 <script context="module">
-  import { client } from "./../graphql/client";
-
-  const VERIFY_USER = `
-    mutation VerifyUser($_id: ID!, $code: String!) {
-      verifyUser(_id: $_id, code: $code)
-    }
-  `;
+  import { client, VERIFY_USER } from "./../graphql/client";
 
   // page.query should be {_id: ..., code: ...}
   export async function preload(page, session) {
     return new Promise((resolve, reject) => {
       client
-        .mutate(VERIFY_USER, page.query)
+        .mutate({ mutation: VERIFY_USER, variables: page.query })
         .then((data) => {
           resolve(data);
           console.log(`data`, data);

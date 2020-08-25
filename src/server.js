@@ -19,6 +19,7 @@ import root from "app-root-path";
 import rateLimit from "express-rate-limit";
 import Area from "./models/area.model";
 import { JWT_COOKIE_NAME, verifyToken } from "./utils/jwt";
+import User from "./models/user.model";
 
 /** Create uploads file if not already created */
 try {
@@ -124,11 +125,20 @@ app.use(
     dev,
   }),
   sapper.middleware({
-    // maybe check and validate cookies here.
-    session: (req, res) => {
-      console.log(`ME TOKEN:`);
-      console.log(req.cookies[JWT_COOKIE_NAME]);
+    // TODO: maybe check and validate cookies here.
+    session: async (req, res) => {
+      let cookieIsValidated = false;
+
+      try {
+        await verifyToken(req.cookies[JWT_COOKIE_NAME]);
+        cookieIsValidated = true;
+      } catch (e) {
+        // invalid token
+        cookieIsValidated = false;
+      }
+
       return {
+        cookieIsValidated,
         cookies: req.cookies,
       };
     },

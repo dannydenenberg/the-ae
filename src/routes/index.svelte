@@ -2,13 +2,14 @@
   import { HELLO, client, DO } from "./../graphql/client";
   export async function preload(page, session) {
     // let data = await client.query({ query: HELLO });
-    let data = await client.mutate(DO);
-    return data;
+    let data = await client.mutate({ mutation: DO });
+    return { data, cookieIsValidated: session.cookieIsValidated };
   }
 </script>
 
 <script>
   export let data;
+  export let cookieIsValidated;
 
   let send = async () => {
     let data = await client.query(HELLO);
@@ -56,5 +57,7 @@ or see
 <div>
   <button on:click={send}>req</button>
 </div>
+
+<div>Cookie is validated: {cookieIsValidated}</div>
 
 <!-- <LoadingDots /> -->

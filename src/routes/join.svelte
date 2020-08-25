@@ -1,14 +1,6 @@
 <script>
-  import { client } from "./../graphql/client";
+  import { client, MAKE_USER } from "./../graphql/client";
   import AlertBox from "./../components/AlertBox.svelte";
-
-  const MAKE_USER = `
-    mutation CreateMessage($user: UserInput) {
-      makeUser(user: $user) {
-        _id
-      }
-    }
-  `;
 
   let error_boolean = false;
   let graphqlERROR = false;
@@ -20,7 +12,7 @@
 
   function handleSubmit(event) {
     let res = client
-      .mutate(MAKE_USER, { user: { email, password } })
+      .mutate({ mutation: MAKE_USER, variables: { user: { email, password } } })
       .then((data) => {
         console.log(data);
         doneSigningUp = true;

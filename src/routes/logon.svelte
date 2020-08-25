@@ -1,36 +1,21 @@
 <script context="module">
-  import { client, VALIDATE_TOKEN } from "./../graphql/client";
+  import { client, VALIDATE_TOKEN, LOG_ON_USER } from "./../graphql/client";
   import { JWT_COOKIE_NAME } from "./../utils/constants";
 
   export async function preload(page, session) {
-    // console.log("🌎page:");
-    // console.log(page);
-    // console.log("🐳session:");
-    // console.log(session);
-    client
-      .query(VALIDATE_TOKEN, { token: session.cookies[JWT_COOKIE_NAME] })
-      .then((data) => {
-        // console.log(`DATA!`, data);
-        console.log("worked");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    console.log(session.cookieIsValidated, "<--!!+");
+    return {
+      doneLoggingOn: session.cookieIsValidated,
+    };
   }
 </script>
 
 <script>
   import AlertBox from "./../components/AlertBox.svelte";
 
-  const LOG_ON_USER = `
-    mutation LogOnUser($user: UserInput) {
-      logOn(user: $user)
-    }
-  `;
-
   let error_boolean = false;
   let graphqlERROR = false;
-  let doneLoggingOn = false;
+  export let doneLoggingOn;
 
   /** Data **/
   let email;
@@ -38,7 +23,10 @@
 
   function handleSubmit(event) {
     client
-      .mutate(LOG_ON_USER, { user: { email, password } })
+      .mutate({
+        mutation: LOG_ON_USER,
+        variables: { user: { email, password } },
+      })
       .then((data) => {
         console.log(data);
         doneLoggingOn = true;

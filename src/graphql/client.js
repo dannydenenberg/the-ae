@@ -1,4 +1,6 @@
+import ApolloClient, { gql } from "apollo-boost";
 import fetch from "node-fetch";
+import { onError } from "@apollo/client/link/error";
 
 const developmentURL = "http://localhost:3000";
 const productionURL = "https://the-ae.herokuapp.com";
@@ -6,62 +8,46 @@ const productionURL = "https://the-ae.herokuapp.com";
 const baseURL =
   process.env.NODE_ENV == "development" ? developmentURL : productionURL;
 
-class GraphqlClient {
-  // server defaults to the current server
-  constructor(server = "", graphqlRoute = "/graphql") {
-    this.server = server;
-    this.graphqlRoute = graphqlRoute;
+export const client = new ApolloClient({
+  uri: `${baseURL}/graphql`,
+  fetch, // specify how to fetch in a node env.
+  credentials: "include",
+  // credentials: "same-origin",
+});
+
+export const VERIFY_USER = gql`
+  mutation VerifyUser($_id: ID!, $code: String!) {
+    verifyUser(_id: $_id, code: $code)
   }
+`;
 
-  // query: string, variables: {var1: 'a', var2: 'b'...}
-  query(query, variables = {}) {
-    return new Promise((resolve, reject) => {
-      // uses node-fetch
-      fetch(`${this.server}${this.graphqlRoute}`, {
-        method: "POST",
-        // credentials: "same-origin", // for sending cookies
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          query,
-          variables,
-        }),
-      })
-        .then((r) => r.json())
-        .then((data) => {
-          // if there are errors DON"T resolve
-          if (data.errors) {
-            reject(data);
-          }
-          resolve(data);
-        })
-        .catch((err) => reject(err));
-    });
+export const MAKE_USER = gql`
+  mutation CreateMessage($user: UserInput) {
+    makeUser(user: $user) {
+      _id
+    }
   }
+`;
 
-  mutate(mutation, variables = {}) {
-    return this.query(mutation, variables);
+export const LOG_ON_USER = gql`
+  mutation LogOnUser($user: UserInput) {
+    logOn(user: $user)
   }
-}
+`;
 
-export const client = new GraphqlClient(baseURL);
-
-export const HELLO = `
+export const HELLO = gql`
   {
     hello
   }
 `;
 
-export const DO = `
+export const DO = gql`
   mutation {
     do
   }
 `;
 
-export const VALIDATE_TOKEN = `
+export const VALIDATE_TOKEN = gql`
   query ValidateUserToken($token: String) {
     validateToken(token: $token) {
       _id

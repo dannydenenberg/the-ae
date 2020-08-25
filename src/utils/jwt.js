@@ -20,8 +20,8 @@ export const generateToken = (data) => {
 export const verifyToken = (token) => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, JWT_TOKEN_SECRET, (err, data) => {
-      if (err) return reject(err);
-      resolve(data);
+      if (err) return reject(err); // token is invalid
+      resolve(data); // token in valid
     });
   });
 };

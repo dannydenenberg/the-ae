@@ -21,6 +21,9 @@ const resolvers = {
     // Either req.cookies or args.token holds the contents of the jwt token
     // ^^ depending on whether the request was sent from the server or client.
     validateToken: (parent, { token }, { req, res }, info) => {
+      console.log("REQ:", req.cookies[JWT_COOKIE_NAME]);
+      console.log("TOKEN:", token);
+      
       const accessToken = req.cookies[JWT_COOKIE_NAME] || token;
 
       return new Promise((resolve, reject) => {
@@ -105,7 +108,7 @@ const resolvers = {
                   return;
                 }
                 resolve(true);
-              },
+              }
             );
           } else {
             resolve(false);
@@ -130,10 +133,6 @@ const resolvers = {
       });
     },
     do: (parent, args, context, info) => {
-      context.res.cookie("in mutation", `${new Date().getSeconds()}`, {
-        httpOnly: true,
-      });
-
       return "did it bud";
     },
   },
