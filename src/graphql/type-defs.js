@@ -52,6 +52,7 @@ const typeDefs = gql`
     verifyUser(_id: ID!, code: String!): Boolean
     makeUser(user: UserInput): User
     logOn(user: UserInput): String
+    logOut(a: String): Boolean
   }
 `;
 

@@ -23,7 +23,7 @@ const resolvers = {
     validateToken: (parent, { token }, { req, res }, info) => {
       console.log("REQ:", req.cookies[JWT_COOKIE_NAME]);
       console.log("TOKEN:", token);
-      
+
       const accessToken = req.cookies[JWT_COOKIE_NAME] || token;
 
       return new Promise((resolve, reject) => {
@@ -46,6 +46,11 @@ const resolvers = {
     },
   },
   Mutation: {
+    // clear cookie from user computer
+    logOut: (parent, { a }, { req, res }, info) => {
+      res.clearCookie(JWT_COOKIE_NAME);
+      return true;
+    },
     // validates email/password. sets httponly cookie
     logOn: (parent, { user }, { req, res }, info) => {
       return new Promise((resolve, reject) => {
@@ -108,7 +113,7 @@ const resolvers = {
                   return;
                 }
                 resolve(true);
-              }
+              },
             );
           } else {
             resolve(false);

@@ -15,6 +15,12 @@ export const client = new ApolloClient({
   // credentials: "same-origin",
 });
 
+export const LOG_OUT = gql`
+  mutation {
+    logOut
+  }
+`;
+
 export const VERIFY_USER = gql`
   mutation VerifyUser($_id: ID!, $code: String!) {
     verifyUser(_id: $_id, code: $code)

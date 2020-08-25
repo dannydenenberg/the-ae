@@ -3,16 +3,16 @@
   export async function preload(page, session) {
     // let data = await client.query({ query: HELLO });
     let data = await client.mutate({ mutation: DO });
-    return { data, cookieIsValidated: session.cookieIsValidated };
+    return { data, jwtData: session.jwtData };
   }
 </script>
 
 <script>
   export let data;
-  export let cookieIsValidated;
+  export let jwtData;
 
   let send = async () => {
-    let data = await client.query(HELLO);
+    let data = await client.query({ query: HELLO });
     console.log(data);
   };
 </script>
@@ -58,6 +58,6 @@ or see
   <button on:click={send}>req</button>
 </div>
 
-<div>Cookie is validated: {cookieIsValidated}</div>
+<div>Cookie is validated: {jwtData}</div>
 
 <!-- <LoadingDots /> -->

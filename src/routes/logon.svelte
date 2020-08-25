@@ -1,11 +1,16 @@
 <script context="module">
-  import { client, VALIDATE_TOKEN, LOG_ON_USER } from "./../graphql/client";
+  import {
+    client,
+    VALIDATE_TOKEN,
+    LOG_ON_USER,
+    LOG_OUT,
+  } from "./../graphql/client";
   import { JWT_COOKIE_NAME } from "./../utils/constants";
 
   export async function preload(page, session) {
-    console.log(session.cookieIsValidated, "<--!!+");
+    console.log(session.jwtData, "<--!!+");
     return {
-      doneLoggingOn: session.cookieIsValidated,
+      doneLoggingOn: session.jwtData,
     };
   }
 </script>
@@ -36,6 +41,14 @@
         console.log(error);
         graphqlERROR = true;
       });
+  }
+
+  async function logOut() {
+    await client.mutate({
+      mutation: LOG_OUT,
+    });
+
+    doneLoggingOn = false;
   }
 
   function validateMessageEmail(event) {
@@ -84,4 +97,5 @@
 
 {#if doneLoggingOn}
   <p>You are logged on.</p>
+  <button on:click={logOut}>Log out</button>
 {/if}

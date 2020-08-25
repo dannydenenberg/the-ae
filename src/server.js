@@ -127,18 +127,17 @@ app.use(
   sapper.middleware({
     // TODO: maybe check and validate cookies here.
     session: async (req, res) => {
-      let cookieIsValidated = false;
+      let jwtData = false;
 
       try {
-        await verifyToken(req.cookies[JWT_COOKIE_NAME]);
-        cookieIsValidated = true;
+        jwtData = await verifyToken(req.cookies[JWT_COOKIE_NAME]);
       } catch (e) {
         // invalid token
-        cookieIsValidated = false;
+        jwtData = false;
       }
 
       return {
-        cookieIsValidated,
+        jwtData,
         cookies: req.cookies,
       };
     },
