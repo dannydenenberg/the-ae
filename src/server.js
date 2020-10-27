@@ -84,7 +84,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-  }),
+  })
 );
 
 app.get("/poopoo", (req, res) => {
@@ -141,7 +141,7 @@ app.use(
         cookies: req.cookies,
       };
     },
-  }),
+  })
 );
 
 app.use(debugMiddleware);

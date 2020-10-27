@@ -80,7 +80,6 @@
     on:invalid={validateMessageEmail}
     on:changed={validateMessageEmail}
     on:input={validateMessageEmail}>
-
     <label for="email">Email</label>
     <input required type="email" id="email" bind:value={email} />
     <br />

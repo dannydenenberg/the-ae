@@ -113,7 +113,7 @@ const resolvers = {
                   return;
                 }
                 resolve(true);
-              },
+              }
             );
           } else {
             resolve(false);
