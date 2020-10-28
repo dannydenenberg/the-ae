@@ -81,6 +81,8 @@ const limiter = rateLimit({
 //  apply to all requests
 app.use(limiter);
 
+app.use(express.json());
+
 app.use(cookieParser());
 app.use(
   cors({

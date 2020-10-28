@@ -25,3 +25,18 @@ export const verifyToken = (token) => {
     });
   });
 };
+
+export const VERIFY_TOKEN_EXPRESS = (req, res, next) => {
+  let token = req.cookie[JWT_COOKIE_NAME];
+  verifyToken(token)
+    .then((data) => {
+      next();
+    })
+    .catch((err) => {
+      res.json({
+        error: true,
+        message:
+          "Person does not have access to this--JWT token validation failed.",
+      });
+    });
+};

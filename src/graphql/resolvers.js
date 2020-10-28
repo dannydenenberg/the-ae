@@ -9,6 +9,7 @@ import Category from "./../models/category.model";
 const resolvers = {
   Query: {
     /** Return ALL category data. */
+    // move to api done
     gatherCategories: (parent, { a }, { req, res }, info) => {
       return new Promise((resolve, reject) => {
         Category.find({}, (err, docs) => {

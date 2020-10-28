@@ -1,21 +1,9 @@
 <script context="module">
-  import {
-    client,
-    VALIDATE_TOKEN,
-    LOG_ON_USER,
-    LOG_OUT,
-  } from "./../graphql/client";
-  import { JWT_COOKIE_NAME } from "../utils/constants";
-
-  export async function preload(page, session) {
-    console.log(session.jwtData, "<--!!+");
-    return {
-      doneLoggingOn: session.jwtData,
-    };
-  }
+  export async function preload(page, session) {}
 </script>
 
 <script>
+  import { POST } from "./../utils/client-requests";
   import AlertBox from "./../components/AlertBox.svelte";
 
   let error_boolean = false;
@@ -27,20 +15,18 @@
   let password;
 
   function handleSubmit(event) {
-    client
-      .mutate({
-        mutation: LOG_ON_USER,
-        variables: { user: { email, password } },
-      })
-      .then((data) => {
-        console.log(data);
+    console.log("in handle");
+    let body = { user: { email, password } };
+    POST("/api/logon", body).then((data) => {
+      console.log("DATA::");
+      console.log(data);
+
+      if (!data.error) {
         doneLoggingOn = true;
-      })
-      .catch((error) => {
-        console.log("errors!!!");
-        console.log(error);
-        graphqlERROR = true;
-      });
+      } else {
+        error_boolean = true;
+      }
+    });
   }
 
   async function logOut() {
@@ -86,7 +72,7 @@
     <label for="password">Password</label>
     <input required type="password" id="password" bind:value={password} />
 
-    <button type="submit">Create account</button>
+    <button type="submit">Log on</button>
 
     {#if error_boolean}
       <pre>OH NO! AN ERRROR!</pre>
