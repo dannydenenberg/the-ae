@@ -5,7 +5,7 @@
     LOG_ON_USER,
     LOG_OUT,
   } from "./../graphql/client";
-  import { JWT_COOKIE_NAME } from "./../utils/constants";
+  import { JWT_COOKIE_NAME } from "../utils/constants";
 
   export async function preload(page, session) {
     console.log(session.jwtData, "<--!!+");

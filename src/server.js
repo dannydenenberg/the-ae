@@ -20,6 +20,7 @@ import rateLimit from "express-rate-limit";
 import Area from "./models/area.model";
 import { JWT_COOKIE_NAME, verifyToken } from "./utils/jwt";
 import User from "./models/user.model";
+import apiRoutes from "./utils/api";
 
 /** Create uploads file if not already created */
 try {
@@ -87,6 +88,9 @@ app.use(
   })
 );
 
+// API routes
+app.use("/api", apiRoutes);
+
 app.get("/poopoo", (req, res) => {
   res.send("yes poopoo is smelly (sol doesn't) wipe");
 });
@@ -126,6 +130,8 @@ app.use(
   }),
   sapper.middleware({
     // TODO: maybe check and validate cookies here.
+
+    // TODO: THis can go in a sec....
     session: async (req, res) => {
       let jwtData = false;
 
