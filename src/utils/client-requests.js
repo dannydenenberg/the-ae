@@ -8,7 +8,13 @@ export async function POST(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
+<<<<<<< HEAD
     credentials: "same-origin", // include, *same-origin, omit
+=======
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "include", // MUST be 'include' for cookies
+>>>>>>> 852aaf44b8ba524899e1ba3067ed35a9c0bfe5a2
     headers: {
       "Content-Type": "application/json",
 
@@ -26,7 +32,13 @@ export async function GET(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
     method: "GET", // *GET, POST, PUT, DELETE, etc.
+<<<<<<< HEAD
     credentials: "same-origin", // include, *same-origin, omit
+=======
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "include", // MUST be 'include' for cookies
+>>>>>>> 852aaf44b8ba524899e1ba3067ed35a9c0bfe5a2
     headers: {
       "Content-Type": "application/json",
       // 'Content-Type': 'application/x-www-form-urlencoded',
