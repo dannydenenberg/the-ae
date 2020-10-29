@@ -94,7 +94,7 @@ const resolvers = {
       // TODO:
       return new Promise((resolve, reject) => {
         User.findById(_id, (err, doc) => {
-          if (err) {
+          if (err || !doc) {
             resolve(false);
             console.log(err);
             return;

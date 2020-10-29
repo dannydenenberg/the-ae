@@ -18,10 +18,6 @@
 </script>
 
 <style>
-  body {
-    font: times;
-    color: red;
-  }
 </style>
 
 <svelte:head>
@@ -33,30 +29,17 @@ or see
 <a href="/form">forms</a>
 
 <ul>
-  <li>
-    <a href="/join">join</a>
-  </li>
-  <li>
-    <a href="/verify?_id=jas8f&code=asdl">verify</a>
-  </li>
-  <li>
-    <a href="/logon">logon</a>
-  </li>
-  <li>
-    <a href="/make">make</a>
-  </li>
+  <li><a href="/join">join</a></li>
+  <li><a href="/verify?_id=jas8f&code=asdl">verify</a></li>
+  <li><a href="/logon">logon</a></li>
+  <li><a href="/make">make</a></li>
 </ul>
 
-<p>
-  or check out
-  <a href="/files">files.</a>
-</p>
+<p>or check out <a href="/files">files.</a></p>
 
 <pre>{JSON.stringify(data)}</pre>
 
-<div>
-  <button on:click={send}>req</button>
-</div>
+<div><button on:click={send}>req</button></div>
 
 <div>Cookie is validated: {jwtData}</div>
 

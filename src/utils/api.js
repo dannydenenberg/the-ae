@@ -21,7 +21,7 @@ router.get("/categories", (req, res) => {
   Category.find({}, (err, docs) => {
     if (err)
       throw new Error(
-        "Couldn't find any categorical data. -- NOTE SUPPOSED TO HAPPEN",
+        "Couldn't find any categorical data. -- NOTE SUPPOSED TO HAPPEN"
       );
     res.json(docs);
   });
@@ -86,13 +86,22 @@ router.post("/logon", (req, res) => {
 
 // _id and code are gotten from the URL queries of /verify
 // this updates the user's `verified` field to true
-router.post("/verifyuser", (req, res) => {
-  let { _id, code } = req.params;
+router.post("/verifyperson", (req, res) => {
+  let { _id, code } = req.query;
+
+  // check if they are actually there (not undefined)
+  if (!_id || !code) {
+    res.json({ error: true, message: "_id or code was not supplied" });
+    return;
+  }
+
   User.findById(_id, (err, doc) => {
     if (err) {
       res.json({
         error: true,
-        message: "111 Error in finding document--NOT SUPPOSED TO HAPPEN.",
+        message: `111 Error in finding document--NOT SUPPOSED TO HAPPEN.
+        (OR ==> MongoDB _id is not in the correct format.)
+        `,
       });
       return;
     }
@@ -100,7 +109,7 @@ router.post("/verifyuser", (req, res) => {
     // is the supplied code in the list of usable codes
     if (doc.verificationCodes.includes(code)) {
       // set verified to true
-      User.findOneAndUpdate({ _id }, { verified: true }, (err, doc, res) => {
+      User.findOneAndUpdate({ _id }, { verified: true }, (err, doc, res2) => {
         if (err) {
           res.json({
             error: true,

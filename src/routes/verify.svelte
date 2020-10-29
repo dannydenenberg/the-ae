@@ -1,19 +1,23 @@
 <script>
   import LoadingDots from "../components/random/LoadingDots.svelte";
   import { POST } from "../utils/client-requests";
+  import { onMount } from "svelte";
 
   export let loading = true;
   export let verified = false;
 
-  (async () => {
-    POST(`/verify${window.location.search}`).then((a) => {
+  onMount(() => {
+    console.log(`SEARCH: ${`/api/verifyperson${window.location.search}`}`);
+    POST(`/api/verifyperson${window.location.search}`).then((a) => {
+      console.log("GOT A");
+      console.log(a);
       if (!a.error) {
         verified = true;
       }
 
       loading = false;
     });
-  })();
+  });
 </script>
 
 <h1>Verify user</h1>
