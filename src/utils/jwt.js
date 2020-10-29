@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 export { JWT_COOKIE_NAME } from "./constants";
+import { JWT_COOKIE_NAME } from "./constants";
 
 dotenv.config();
 
@@ -24,4 +25,19 @@ export const verifyToken = (token) => {
       resolve(data); // token in valid
     });
   });
+};
+
+export const VERIFY_TOKEN_EXPRESS = (req, res, next) => {
+  let token = req.cookies[JWT_COOKIE_NAME];
+  verifyToken(token)
+    .then((data) => {
+      next();
+    })
+    .catch((err) => {
+      res.json({
+        error: true,
+        message:
+          "Person does not have access to this--JWT token validation failed.",
+      });
+    });
 };

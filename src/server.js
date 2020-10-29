@@ -2,9 +2,6 @@ import sirv from "sirv";
 import express from "express";
 import compression from "compression";
 import * as sapper from "@sapper/server";
-import { ApolloServer } from "apollo-server-express";
-import typeDefs from "./graphql/type-defs";
-import resolvers from "./graphql/resolvers";
 import debugMiddleware from "./utils/debug";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -20,6 +17,7 @@ import rateLimit from "express-rate-limit";
 import Area from "./models/area.model";
 import { JWT_COOKIE_NAME, verifyToken } from "./utils/jwt";
 import User from "./models/user.model";
+import apiRoutes from "./utils/api";
 
 /** Create uploads file if not already created */
 try {
@@ -80,12 +78,17 @@ const limiter = rateLimit({
 //  apply to all requests
 app.use(limiter);
 
+app.use(express.json());
+
 app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-  }),
+  })
 );
+
+// API routes
+app.use("/api", apiRoutes);
 
 app.get("/poopoo", (req, res) => {
   res.send("yes poopoo is smelly (sol doesn't) wipe");
@@ -100,23 +103,6 @@ app.post("/files", uploadType, async (req, res) => {
   res.send("all done baby");
 });
 
-/** Set up GraphQL **/
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  // access req,res in the 'context' param
-  // in resolvers like so: context.req or context.res
-  context: ({ req, res }) => {
-    return { req, res };
-  },
-});
-
-/** MUST be placed right under the 'server' variable */
-server.applyMiddleware({
-  app,
-  cors: false, // allows express' cors above to work
-});
-
 app.use(
   compression({
     threshold: 0,
@@ -124,24 +110,7 @@ app.use(
   sirv("static", {
     dev,
   }),
-  sapper.middleware({
-    // TODO: maybe check and validate cookies here.
-    session: async (req, res) => {
-      let jwtData = false;
-
-      try {
-        jwtData = await verifyToken(req.cookies[JWT_COOKIE_NAME]);
-      } catch (e) {
-        // invalid token
-        jwtData = false;
-      }
-
-      return {
-        jwtData,
-        cookies: req.cookies,
-      };
-    },
-  }),
+  sapper.middleware()
 );
 
 app.use(debugMiddleware);

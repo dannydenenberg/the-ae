@@ -1,46 +1,32 @@
-<script context="module">
-  import {
-    client,
-    VALIDATE_TOKEN,
-    LOG_ON_USER,
-    LOG_OUT,
-  } from "./../graphql/client";
-  import { JWT_COOKIE_NAME } from "./../utils/constants";
-
-  export async function preload(page, session) {
-    console.log(session.jwtData, "<--!!+");
-    return {
-      doneLoggingOn: session.jwtData,
-    };
-  }
-</script>
-
 <script>
+  import { checkIfLoggedOn, POST } from "./../utils/client-requests";
   import AlertBox from "./../components/AlertBox.svelte";
+  import { onMount } from "svelte";
 
   let error_boolean = false;
-  let graphqlERROR = false;
   export let doneLoggingOn;
 
   /** Data **/
   let email;
   let password;
 
+  onMount(() => {
+    let isLoggedOn = checkIfLoggedOn();
+  });
+
   function handleSubmit(event) {
-    client
-      .mutate({
-        mutation: LOG_ON_USER,
-        variables: { user: { email, password } },
-      })
-      .then((data) => {
-        console.log(data);
+    console.log("in handle");
+    let body = { user: { email, password } };
+    POST("/api/logon", body).then((data) => {
+      console.log("DATA::");
+      console.log(data);
+
+      if (!data.error) {
         doneLoggingOn = true;
-      })
-      .catch((error) => {
-        console.log("errors!!!");
-        console.log(error);
-        graphqlERROR = true;
-      });
+      } else {
+        error_boolean = true;
+      }
+    });
   }
 
   async function logOut() {
@@ -71,7 +57,7 @@
 <h1>Log on</h1>
 
 {#if !doneLoggingOn}
-  {#if graphqlERROR}
+  {#if error_boolean}
     <AlertBox>There was an error in loggin you in.</AlertBox>
   {/if}
 
@@ -80,14 +66,13 @@
     on:invalid={validateMessageEmail}
     on:changed={validateMessageEmail}
     on:input={validateMessageEmail}>
-
     <label for="email">Email</label>
     <input required type="email" id="email" bind:value={email} />
     <br />
     <label for="password">Password</label>
     <input required type="password" id="password" bind:value={password} />
 
-    <button type="submit">Create account</button>
+    <button type="submit">Log on</button>
 
     {#if error_boolean}
       <pre>OH NO! AN ERRROR!</pre>

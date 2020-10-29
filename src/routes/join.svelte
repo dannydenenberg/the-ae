@@ -1,9 +1,8 @@
 <script>
-  import { client, MAKE_USER } from "./../graphql/client";
   import AlertBox from "./../components/AlertBox.svelte";
+  import { POST } from "./../utils/client-requests";
 
   let error_boolean = false;
-  let graphqlERROR = false;
   let doneSigningUp = false;
 
   /** Data **/
@@ -11,17 +10,15 @@
   let password;
 
   function handleSubmit(event) {
-    let res = client
-      .mutate({ mutation: MAKE_USER, variables: { user: { email, password } } })
-      .then((data) => {
-        console.log(data);
+    POST("/api/makeperson", { user: { email, password } }).then((a) => {
+      if (a.error) {
+        alert(`ERROR: ${a.message}`);
+        error_boolean = true;
+      } else {
+        console.log("User created.");
         doneSigningUp = true;
-      })
-      .catch((error) => {
-        console.log("errors!!!");
-        console.log(error);
-        graphqlERROR = true;
-      });
+      }
+    });
   }
 
   function validateMessageEmail(event) {
@@ -44,7 +41,7 @@
 <h1>Join the ae</h1>
 
 {#if !doneSigningUp}
-  {#if graphqlERROR}
+  {#if error_boolean}
     <AlertBox>There was an error in creating your account.</AlertBox>
   {/if}
 
@@ -53,7 +50,6 @@
     on:invalid={validateMessageEmail}
     on:changed={validateMessageEmail}
     on:input={validateMessageEmail}>
-
     <label for="email">Email</label>
     <input required type="email" id="email" bind:value={email} />
     <br />
