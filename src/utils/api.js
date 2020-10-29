@@ -27,7 +27,7 @@ router.get("/categories", (req, res) => {
   });
 });
 
-router.get("/validate", VERIFY_TOKEN_EXPRESS, (req, res) => {
+router.get("/validatetoken", VERIFY_TOKEN_EXPRESS, (req, res) => {
   // if it makes it here, validated.
   res.json({ error: false, message: "Validated!" });
 });
@@ -72,7 +72,6 @@ router.post("/logon", (req, res) => {
 
           // set HTTP only cookie
           res.cookie(JWT_COOKIE_NAME, token, {
-            secure: true,
             httpOnly: true,
           });
           res.json({ error: false });

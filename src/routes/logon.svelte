@@ -1,10 +1,7 @@
-<script context="module">
-  export async function preload(page, session) {}
-</script>
-
 <script>
-  import { POST } from "./../utils/client-requests";
+  import { checkIfLoggedOn, POST } from "./../utils/client-requests";
   import AlertBox from "./../components/AlertBox.svelte";
+  import { onMount } from "svelte";
 
   let error_boolean = false;
   let graphqlERROR = false;
@@ -13,6 +10,10 @@
   /** Data **/
   let email;
   let password;
+
+  onMount(() => {
+    let isLoggedOn = checkIfLoggedOn();
+  });
 
   function handleSubmit(event) {
     console.log("in handle");

@@ -1,22 +1,3 @@
-<script context="module">
-  import { HELLO, client, DO } from "./../graphql/client";
-  export async function preload(page, session) {
-    // let data = await client.query({ query: HELLO });
-    let data = await client.mutate({ mutation: DO });
-    return { data, jwtData: session.jwtData };
-  }
-</script>
-
-<script>
-  export let data;
-  export let jwtData;
-
-  let send = async () => {
-    let data = await client.query({ query: HELLO });
-    console.log(data);
-  };
-</script>
-
 <style>
 </style>
 
@@ -36,11 +17,4 @@ or see
 </ul>
 
 <p>or check out <a href="/files">files.</a></p>
-
-<pre>{JSON.stringify(data)}</pre>
-
-<div><button on:click={send}>req</button></div>
-
-<div>Cookie is validated: {jwtData}</div>
-
 <!-- <LoadingDots /> -->

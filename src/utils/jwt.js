@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 export { JWT_COOKIE_NAME } from "./constants";
+import { JWT_COOKIE_NAME } from "./constants";
 
 dotenv.config();
 
@@ -27,7 +28,7 @@ export const verifyToken = (token) => {
 };
 
 export const VERIFY_TOKEN_EXPRESS = (req, res, next) => {
-  let token = req.cookie[JWT_COOKIE_NAME];
+  let token = req.cookies[JWT_COOKIE_NAME];
   verifyToken(token)
     .then((data) => {
       next();
