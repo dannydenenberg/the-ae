@@ -4,7 +4,6 @@
   import { onMount } from "svelte";
 
   let error_boolean = false;
-  let graphqlERROR = false;
   export let doneLoggingOn;
 
   /** Data **/
@@ -58,7 +57,7 @@
 <h1>Log on</h1>
 
 {#if !doneLoggingOn}
-  {#if graphqlERROR}
+  {#if error_boolean}
     <AlertBox>There was an error in loggin you in.</AlertBox>
   {/if}
 

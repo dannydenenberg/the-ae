@@ -3,7 +3,6 @@
   import { POST } from "./../utils/client-requests";
 
   let error_boolean = false;
-  let graphqlERROR = false;
   let doneSigningUp = false;
 
   /** Data **/
@@ -42,7 +41,7 @@
 <h1>Join the ae</h1>
 
 {#if !doneSigningUp}
-  {#if graphqlERROR}
+  {#if error_boolean}
     <AlertBox>There was an error in creating your account.</AlertBox>
   {/if}
 
