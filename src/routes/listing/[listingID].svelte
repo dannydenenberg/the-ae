@@ -21,7 +21,10 @@
     // you can use listingID here
     POST("/api/listing", { listingID }).then((a) => {
       console.log(a);
-      if (a.error) console.log("listing NOT found.");
+      if (a.error) {
+        console.log("listing NOT found.");
+        window.location.replace("/listing-not-found");
+      }
       listing = a;
 
       loading = false;

@@ -6,6 +6,7 @@ The default [Sapper](https://github.com/sveltejs/sapper) template, available for
 
 ### Notes
 
+- listings are shown as `/listing/listingMongoID`
 - **API returns {error?: true/false, message?: "..."}**
 - https MUST be enforced or `cors` will scream
 - I set cookies through graphql resolvers. This only sets cookies when the request comes from the client and NOT a graphqIql program.
