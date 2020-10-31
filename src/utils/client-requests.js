@@ -45,14 +45,18 @@ export async function GET(url = "") {
   return response.json(); // parses JSON response into native JavaScript objects
 }
 
-export async function checkIfLoggedOn() {
-  GET("/api/validatetoken").then((a) => {
-    if (a.error) {
-      console.log(`📮 you are NOT logged on.`);
-      return false;
-    } else {
-      console.log(`✅ you are logged on.`);
-      return true;
-    }
+export function checkIfLoggedOn() {
+  return new Promise((resolve, reject) => {
+    GET("/api/validatetoken").then((a) => {
+      if (a.error) {
+        console.log(`📮 you are NOT logged on.`);
+        resolve(false);
+      } else {
+        console.log(`✅ you are logged on.`);
+        resolve(true);
+      }
+    });
   });
 }
+
+export let redirectTo = (url) => window.location.replace(url);

@@ -25,7 +25,7 @@ router.get("/categories", (req, res) => {
   Category.find({}, (err, docs) => {
     if (err)
       throw new Error(
-        "Couldn't find any categorical data. -- NOTE SUPPOSED TO HAPPEN",
+        "Couldn't find any categorical data. -- NOTE SUPPOSED TO HAPPEN"
       );
     res.json(docs);
   });
@@ -35,15 +35,19 @@ router.get("/areas", (req, res) => {
   Area.find({}, (err, docs) => {
     if (err)
       throw new Error(
-        "Couldn't find any area data. -- NOT SUPPOSED TO HAPPEN.",
+        "Couldn't find any area data. -- NOT SUPPOSED TO HAPPEN."
       );
     res.json(docs);
   });
 });
 
 router.get("/validatetoken", VERIFY_TOKEN_EXPRESS, (req, res) => {
-  // if it makes it here, validated.
-  res.json({ error: false, message: "Validated!" });
+  if (req.loggedInPersonTokenInformation) {
+    // if it makes it here, validated.
+    res.json({ error: false, message: "Validated!" });
+  } else {
+    res.json({ error: true, message: "token NOT validated." });
+  }
 });
 
 router.post("/logout", (req, res) => {
@@ -184,17 +188,19 @@ router.post(
   VERIFY_TOKEN_EXPRESS,
   uploadType("images"),
   async (req, res) => {
+    // if user is NOT logged in
+    if (!req.loggedInPersonTokenInformation) {
+      res.redirect("/logon");
+    }
+
     let files = req.files.map((file) => file.filename);
 
     // upload files to google cloud API
     await uploadFiles(files);
 
     res.send("recieved.");
-
-    // get user data (_id)
-    let token = req.cookies[JWT_COOKIE_NAME];
     // console.log(token)
-    let loggedInUserID = (await verifyToken(token))._id;
+    let loggedInUserID = req.loggedInPersonTokenInformation._id;
     console.log(`🎃🎃 ${loggedInUserID}`);
 
     let listingData = {
@@ -213,7 +219,7 @@ router.post(
         console.log("✅ New Listing saved successfully.");
       }
     });
-  },
+  }
 );
 
 // get a single listing from body

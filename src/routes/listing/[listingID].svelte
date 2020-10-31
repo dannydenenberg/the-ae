@@ -14,7 +14,6 @@
 <script>
   import { onMount } from "svelte";
   import { POST } from "./../../utils/client-requests";
-  import Loading from "./../../components/random/LoadingDots.svelte";
   import LoadingDots from "./../../components/random/LoadingDots.svelte";
 
   onMount(() => {
@@ -23,7 +22,6 @@
       console.log(a);
       if (a.error) {
         console.log("listing NOT found.");
-        window.location.replace("/listing-not-found");
       }
       listing = a;
 

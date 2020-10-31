@@ -27,17 +27,16 @@ export const verifyToken = (token) => {
   });
 };
 
+// This puts the token information inside req.loggedInPersonTokenInformation IF it is a valid token.
 export const VERIFY_TOKEN_EXPRESS = (req, res, next) => {
   let token = req.cookies[JWT_COOKIE_NAME];
   verifyToken(token)
     .then((data) => {
+      req.loggedInPersonTokenInformation = data;
       next();
     })
     .catch((err) => {
-      res.json({
-        error: true,
-        message:
-          "Person does not have access to this--JWT token validation failed.",
-      });
+      console.log("Token validation FAILED.");
+      next();
     });
 };

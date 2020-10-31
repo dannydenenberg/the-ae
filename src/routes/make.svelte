@@ -1,8 +1,20 @@
 <script>
   import { onMount } from "svelte";
-  import { GET, POST } from "./../utils/client-requests";
+  import {
+    checkIfLoggedOn,
+    GET,
+    POST,
+    redirectTo,
+  } from "./../utils/client-requests";
 
   onMount(() => {
+    checkIfLoggedOn().then(async (a) => {
+      // if person is NOT logged in
+      if (!a) {
+        alert("Please log in.");
+        redirectTo("/logon");
+      }
+    });
     GET("/api/categories").then((a) => {
       categories = a;
       console.log(a);
