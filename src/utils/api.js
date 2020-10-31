@@ -216,4 +216,22 @@ router.post(
   },
 );
 
+// get a single listing from body
+// req.body = { listingID: "<MONGO ID>"}
+router.post("/listing", (req, res) => {
+  Listing.findById(req.body.listingID, (err, doc) => {
+    if (err) {
+      console.log(err);
+      res.json({ error: true, message: "error in finding the document." });
+      return;
+    }
+
+    if (!doc) {
+      res.json({ error: true, message: "Document not found." });
+      return;
+    }
+    res.json(doc);
+  });
+});
+
 export default router;

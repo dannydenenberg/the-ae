@@ -43,5 +43,5 @@ async function uploadSingleFile(filename) {
     },
   });
 
-  console.log(`${filename} uploaded to ${bucketName}`);
+  console.log(`🎃 ==> ${filename} uploaded to ${bucketName}`);
 }
