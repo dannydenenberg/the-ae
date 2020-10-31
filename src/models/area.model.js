@@ -26,7 +26,7 @@ export const AreaSchema = new mongoose.Schema({
     type: String,
     required: [true, "Region is a required field"],
   },
-  // Short name/description of the area
+  // Short name/TITLE of the area
   description: {
     type: String,
     required: [true, "A description is required"],

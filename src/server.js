@@ -80,11 +80,18 @@ app.use(limiter);
 
 app.use(express.json());
 
+// for submitting forms
+app.use(
+  express.urlencoded({
+    extended: true,
+  }),
+);
+
 app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-  })
+  }),
 );
 
 // API routes
@@ -94,7 +101,7 @@ app.get("/poopoo", (req, res) => {
   res.send("yes poopoo is smelly (sol doesn't) wipe");
 });
 
-app.post("/files", uploadType, async (req, res) => {
+app.post("/files", uploadType("uploaded_file_name"), async (req, res) => {
   let files = req.files.map((file) => file.filename);
   console.log(files);
 
@@ -110,7 +117,7 @@ app.use(
   sirv("static", {
     dev,
   }),
-  sapper.middleware()
+  sapper.middleware(),
 );
 
 app.use(debugMiddleware);

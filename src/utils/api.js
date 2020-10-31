@@ -4,11 +4,15 @@ USES: Database, cookies, login, etc.
 */
 
 import User from "./../models/user.model";
+import Area from "./../models/area.model";
+import Listing from "./../models/listing.model";
 import Category from "./../models/category.model";
 import express from "express";
 import { VERIFY_TOKEN_EXPRESS, generateToken } from "./jwt";
-import { JWT_COOKIE_NAME } from "./constants";
+import { JWT_COOKIE_NAME, verifyToken } from "./jwt";
 import { sendVerificationCodeEmail } from "./email";
+import { uploadType } from "./../utils/multer";
+import { uploadFiles } from "./../utils/google-storage";
 
 let router = express.Router();
 
@@ -21,7 +25,17 @@ router.get("/categories", (req, res) => {
   Category.find({}, (err, docs) => {
     if (err)
       throw new Error(
-        "Couldn't find any categorical data. -- NOTE SUPPOSED TO HAPPEN"
+        "Couldn't find any categorical data. -- NOTE SUPPOSED TO HAPPEN",
+      );
+    res.json(docs);
+  });
+});
+
+router.get("/areas", (req, res) => {
+  Area.find({}, (err, docs) => {
+    if (err)
+      throw new Error(
+        "Couldn't find any area data. -- NOT SUPPOSED TO HAPPEN.",
       );
     res.json(docs);
   });
@@ -155,5 +169,51 @@ router.post("/makeperson", (req, res) => {
     }
   });
 });
+
+// req.files = ['file1','file2'...]
+/* 
+req.body = {
+  title: 'SHOES??',
+  description: 'what is up',
+  category: [ 'uno', 'bik' ],
+  language: 'en'
+}
+*/
+router.post(
+  "/make",
+  VERIFY_TOKEN_EXPRESS,
+  uploadType("images"),
+  async (req, res) => {
+    let files = req.files.map((file) => file.filename);
+
+    // upload files to google cloud API
+    await uploadFiles(files);
+
+    res.send("recieved.");
+
+    // get user data (_id)
+    let token = req.cookies[JWT_COOKIE_NAME];
+    // console.log(token)
+    let loggedInUserID = (await verifyToken(token))._id;
+    console.log(`🎃🎃 ${loggedInUserID}`);
+
+    let listingData = {
+      user: loggedInUserID,
+      ...req.body,
+      images: files,
+    };
+
+    console.log(listingData);
+
+    let newListing = new Listing(listingData);
+    newListing.save((err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("✅ New Listing saved successfully.");
+      }
+    });
+  },
+);
 
 export default router;

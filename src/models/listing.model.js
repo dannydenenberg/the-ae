@@ -4,7 +4,7 @@ import * as mongoose from "mongoose";
 const imageStorageBaseURL =
   "https://storage.googleapis.com/the-academia-exchange-images";
 
-export const PostSchema = new mongoose.Schema({
+export const ListingSchema = new mongoose.Schema({
   // object id of user
   user: {
     required: [true, "A user MUST be associated with a post"],
@@ -44,6 +44,7 @@ export const PostSchema = new mongoose.Schema({
   // whether the person is selling or wanting (at mvp, shouldn't change much)
   isSeller: {
     type: Boolean,
+    default: true,
   },
   // list of JUST image names. the server/baseURL listed above will be prepended
   images: {
@@ -57,5 +58,5 @@ export const PostSchema = new mongoose.Schema({
   },
 });
 
-const Post = mongoose.model("Post", PostSchema);
-export default Post;
+const Listing = mongoose.model("Listing", ListingSchema);
+export default Listing;

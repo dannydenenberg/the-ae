@@ -28,5 +28,5 @@ const upload = multer({
     fileSize: 1 * 1024 * 1024, // 1MB
   },
 });
-// the string corresponds to the "name" attribute in the html input for the files
-export const uploadType = upload.array("uploaded_file_name", 4);
+// the string, `fileName` corresponds to the "name" attribute in the html input for the files
+export const uploadType = (fileName) => upload.array(fileName, 4);

@@ -19,7 +19,7 @@ export const CategorySchema = new mongoose.Schema({
     required: [true, "A category needs an abbreviation"],
     unique: [true, "The abbreviation MUST be unique for referencing purposes"],
   },
-  // short description
+  // short description/TITLE
   description: {
     type: String,
     required: [true, "A category needs a description"],
