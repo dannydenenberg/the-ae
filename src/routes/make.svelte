@@ -15,6 +15,7 @@
         redirectTo("/logon");
       }
     });
+
     GET("/api/categories").then((a) => {
       categories = a;
       console.log(a);
