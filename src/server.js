@@ -8,7 +8,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 // import "dotenv/config";
 import startDB from "./utils/start-database";
-import Kitty from "./models/kitty.model";
 import { uploadType } from "./utils/multer";
 import { uploadFiles } from "./utils/google-storage";
 import fs from "fs";
@@ -16,7 +15,6 @@ import root from "app-root-path";
 import rateLimit from "express-rate-limit";
 import Area from "./models/area.model";
 import { JWT_COOKIE_NAME, verifyToken } from "./utils/jwt";
-import User from "./models/user.model";
 import apiRoutes from "./utils/api";
 
 /** Create uploads file if not already created */

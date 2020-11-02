@@ -8,6 +8,18 @@
   } from "./../utils/client-requests";
 
   onMount(() => {
+    // Check for too big of a file upload.
+    // If too big, alert the user and clear the field.
+    let uploadField = document.getElementById("file");
+
+    uploadField.onchange = function () {
+      let twoMB = 2 * 1024 * 1024; // 2 MB
+      if (this.files[0].size > twoMB) {
+        alert("File is too big!");
+        this.value = "";
+      }
+    };
+
     checkIfLoggedOn().then(async (a) => {
       // if person is NOT logged in
       if (!a) {
@@ -74,7 +86,7 @@
   </select>
   <br />
   <label for="images">Choose image(s) (or none): </label>
-  <input type="file" accept="image/*" name="images" multiple />
+  <input type="file" id="file" accept="image/*" name="images" multiple />
   <br /><br />
   <input type="submit" />
 </form>

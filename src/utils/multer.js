@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1 * 1024 * 1024, // 1MB
+    fileSize: 2 * 1024 * 1024, // 2MB max file upload
   },
 });
 // the string, `fileName` corresponds to the "name" attribute in the html input for the files

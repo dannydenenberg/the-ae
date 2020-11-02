@@ -3,7 +3,7 @@ ALL function for /api/* routes.
 USES: Database, cookies, login, etc.
 */
 
-import User from "./../models/user.model";
+import Person from "./../models/person.model";
 import Area from "./../models/area.model";
 import Listing from "./../models/listing.model";
 import Category from "./../models/category.model";
@@ -25,7 +25,7 @@ router.get("/categories", (req, res) => {
   Category.find({}, (err, docs) => {
     if (err)
       throw new Error(
-        "Couldn't find any categorical data. -- NOTE SUPPOSED TO HAPPEN"
+        "Couldn't find any categorical data. -- NOTE SUPPOSED TO HAPPEN",
       );
     res.json(docs);
   });
@@ -35,7 +35,7 @@ router.get("/areas", (req, res) => {
   Area.find({}, (err, docs) => {
     if (err)
       throw new Error(
-        "Couldn't find any area data. -- NOT SUPPOSED TO HAPPEN."
+        "Couldn't find any area data. -- NOT SUPPOSED TO HAPPEN.",
       );
     res.json(docs);
   });
@@ -67,7 +67,7 @@ router.post("/logon", (req, res) => {
   console.log("😹 in logon");
   let { user } = req.body;
 
-  User.findOne({ email: user.email }, (err, doc) => {
+  Person.findOne({ email: user.email }, (err, doc) => {
     if (err) {
       res.json({
         error: true,
@@ -112,7 +112,7 @@ router.post("/verifyperson", (req, res) => {
     return;
   }
 
-  User.findById(_id, (err, doc) => {
+  Person.findById(_id, (err, doc) => {
     if (err) {
       res.json({
         error: true,
@@ -126,7 +126,7 @@ router.post("/verifyperson", (req, res) => {
     // is the supplied code in the list of usable codes
     if (doc.verificationCodes.includes(code)) {
       // set verified to true
-      User.findOneAndUpdate({ _id }, { verified: true }, (err, doc, res2) => {
+      Person.findOneAndUpdate({ _id }, { verified: true }, (err, doc, res2) => {
         if (err) {
           res.json({
             error: true,
@@ -155,7 +155,7 @@ BODY:
  */
 router.post("/makeperson", (req, res) => {
   let { user } = req.body;
-  let newPerson = new User(user);
+  let newPerson = new Person(user);
 
   // send a verification email to the person
   let code = newPerson.verificationCodes[0];
@@ -219,7 +219,7 @@ router.post(
         console.log("✅ New Listing saved successfully.");
       }
     });
-  }
+  },
 );
 
 // get a single listing from body

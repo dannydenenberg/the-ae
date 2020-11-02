@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-export const UserSchema = new mongoose.Schema({
+export const PersonSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Email is required"],
@@ -56,7 +56,7 @@ export const UserSchema = new mongoose.Schema({
 /** NOTE: you CANNOT use arrow functions in mongoose methods. */
 
 // Before user is saved, hash password
-UserSchema.pre("save", function (next) {
+PersonSchema.pre("save", function (next) {
   const SALT_WORK_FACTOR = 10;
   let user = this;
 
@@ -79,12 +79,12 @@ UserSchema.pre("save", function (next) {
 });
 
 // if isMatch == true, it worked. Otherwise, no
-UserSchema.methods.comparePassword = function (candidatePassword, cb) {
+PersonSchema.methods.comparePassword = function (candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
     if (err) return cb(err);
     cb(null, isMatch);
   });
 };
 
-const User = mongoose.model("User", UserSchema);
-export default User;
+const Person = mongoose.model("Person", PersonSchema);
+export default Person;
