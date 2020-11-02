@@ -8,9 +8,15 @@ export const ListingSchema = new mongoose.Schema(
   {
     // object id of user
     user: {
-      required: [true, "A user MUST be associated with a post"],
+      required: [true, "A user MUST be associated with a listing."],
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+    // the area associated with the listing
+    area: {
+      required: [true, "A listing must have an associated area."],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Area",
     },
     // short, UNIQUE 3 letter abbreviation of the category
     category: {

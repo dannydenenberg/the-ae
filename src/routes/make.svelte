@@ -70,8 +70,8 @@
   <label for="area">Choose an area:</label>
   <select name="area">
     <!-- `i` is the index in the array (0, 1,2,3) -->
-    {#each areas as { hostname, region, description }, i}
-      <option value={hostname}>{hostname} ({region})</option>
+    {#each areas as { hostname, region, description, _id }, i}
+      <option value={_id}>{hostname} ({region}) -- {_id}</option>
     {/each}
   </select>
 

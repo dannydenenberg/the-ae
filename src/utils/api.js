@@ -213,6 +213,7 @@ router.post(
       category: req.body.category,
       language: req.body.language,
       images: files,
+      area: req.body.area, // mongoid of the area associated with listing
     };
 
     if (req.body.price) {
@@ -256,90 +257,71 @@ router.post("/listing", (req, res) => {
 // `/search?topic=day`
 // In either case, there can be a "page" query for pagination.
 // If no page is supplied, the default is 1.
-router.get("/search", (req, res) => {
-  // **********
-  // **********
-  // TODO: CHANGE THIS SO IT SEARCHES IN A SPECIFIC AREA
-  // **********
-  // **********
+router.get("/search", async (req, res) => {
   const maxNumResultsPerPage = 120;
 
-  let { category, topic, page, query } = req.query;
-
-  let searchQueryForListings = {};
+  let { category, topic, page, query, hostname } = req.query;
 
   if (!page) {
     page = 1;
   }
 
-  if (!query) {
-    query = /.*/;
+  // Build the search query.
+  /** It will end up looking something like this:
+   {
+     category: { $in: ["apt", "boo", ...]},
+     area: "829df6asd87f68asf78d",
+     $text: {$search: "harry potter"}
+   }
+   */
+  let searchQueryForListings = {};
+
+  // convert areaHostname into _id
+  if (hostname) {
+    let areaDoc = await Area.findOne({ hostname });
+    let area_id = areaDoc._id;
+    searchQueryForListings.area = area_id;
+  }
+
+  if (query) {
+    searchQueryForListings.$text = { $search: query };
   }
 
   if (category) {
-    Listing.find(
-      {
-        category: category,
-        $text: { $search: query },
-      },
-      { score: { $meta: "textScore" } },
-    )
-      .sort({ score: { $meta: "textScore" } })
-      .exec((err, docs) => {
-        if (err) {
-          console.log(err);
-          res.json({ error: true, message: "Error in searching categories." });
-          return;
-        }
+    searchQueryForListings.category = category;
+  }
 
-        if (!docs) {
-          res.json({ listings: [] });
-          return;
-        }
+  if (topic) {
+    let topicDoc = await Topic.findOne({ abbreviation: topic });
+    let topicCategories = topicDoc.categories;
 
-        res.json({ listings: docs });
-      });
-  } else if (topic) {
-    Topic.findOne({ abbreviation: topic }, (err, doc) => {
-      if (err) {
-        res.json({ error: true, message: "Error in searching topics." });
+    if (!topicDoc) {
+      topicCategories = [];
+    }
+
+    searchQueryForListings.category = { $in: topicCategories };
+  }
+  console.log("query: " + query);
+
+  Listing.find(searchQueryForListings, { score: { $meta: "textScore" } })
+    .sort({ score: { $meta: "textScore" } })
+    .exec((err2, DOCS) => {
+      if (err2) {
+        console.log(err2);
+        res.json({
+          error: true,
+          message: "Error in searching categories 22.",
+        });
         return;
       }
 
-      if (!doc) {
+      if (!DOCS) {
         res.json({ listings: [] });
         return;
       }
 
-      console.log("query: " + query);
-
-      Listing.find(
-        {
-          category: { $in: doc.categories },
-          $text: { $search: query },
-        },
-        { score: { $meta: "textScore" } },
-      )
-        .sort({ score: { $meta: "textScore" } })
-        .exec((err2, DOCS) => {
-          if (err2) {
-            console.log(err2);
-            res.json({
-              error: true,
-              message: "Error in searching categories 22.",
-            });
-            return;
-          }
-
-          if (!DOCS) {
-            res.json({ listings: [] });
-            return;
-          }
-
-          res.json({ listings: DOCS });
-        });
+      res.json({ listings: DOCS });
     });
-  }
 });
 
 export default router;

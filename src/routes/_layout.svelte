@@ -113,13 +113,9 @@
 
     <div class="userlinks">
       <ul class="user-actions">
-        <li class="user post">
-          <a href="https://post.craigslist.org/c/oma">post</a>
-        </li>
+        <li class="user post"><a href="/make">post</a></li>
         |&nbsp;
-        <li class="user account">
-          <a href="https://accounts.craigslist.org/login/home">account</a>
-        </li>
+        <li class="user account"><a href="/account">account</a></li>
       </ul>
     </div>
   </header>

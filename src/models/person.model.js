@@ -27,8 +27,8 @@ export const PersonSchema = new mongoose.Schema({
     default: false,
   },
   // TODO:
-  posts: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+  listings: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Listing" }],
     default: [],
   },
   // ISO 639-1 language ID
