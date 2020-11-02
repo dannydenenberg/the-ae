@@ -13,7 +13,7 @@
 
 <script>
   import { onMount } from "svelte";
-  import { POST } from "./../../utils/client-requests";
+  import { POST, redirectTo } from "./../../utils/client-requests";
   import LoadingDots from "./../../components/random/LoadingDots.svelte";
 
   onMount(() => {
@@ -22,6 +22,7 @@
       console.log(a);
       if (a.error) {
         console.log("listing NOT found.");
+        redirectTo("/listing-not-found");
       }
       listing = a;
 
@@ -33,14 +34,32 @@
   export let loading = true;
 </script>
 
-{#if loading}
-  <LoadingDots />
-{:else}
-  <h1>{listing.title}</h1>
+<style>
+  #description {
+    white-space: pre-wrap;
+  }
+  #listing {
+    font-family: "Times New Roman", Times, serif;
+  }
+</style>
 
-  <p>{listing.description}</p>
+<div id="listing">
+  {#if loading}
+    <LoadingDots />
+  {:else}
+    <h2>
+      {listing.title}
 
-  {#each listing.images as src}
-    <img {src} width="250" alt="listing image" />
-  {/each}
-{/if}
+      {#if listing.attributes.price}
+        --
+        <small>${listing.attributes.price}</small>
+      {/if}
+    </h2>
+
+    <p id="description">{listing.description}</p>
+
+    {#each listing.images as src}
+      <img {src} width="250" alt="listing image" />
+    {/each}
+  {/if}
+</div>

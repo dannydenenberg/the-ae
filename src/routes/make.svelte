@@ -79,8 +79,8 @@
   <label for="category">Choose a category:</label>
   <select name="category">
     <!-- `i` is the index in the array (0, 1,2,3) -->
-    {#each categories as { abbreviation, description }, i}
-      <option value={abbreviation}>{description}</option>
+    {#each categories as { abbreviation, description, _id }, i}
+      <option value={_id}>{description}</option>
     {/each}
   </select>
   <br />

@@ -26,6 +26,9 @@
       error = true;
     }
 
+    console.log("LISTINGS");
+    console.log(listings);
+
     return {
       listings,
       error,
@@ -96,7 +99,7 @@
     name="query"
     placeholder="query..."
     value={textQuery || ''} />
-
+  <button type="submit">Search</button>
   <!-- Hidden inputs to maintain category,topic,page queryies in URL -->
   <!-- This allows these queryies to stay in the URL after submitting. -->
   {#if topic}<input type="hidden" name="topic" value={topic} />{/if}
@@ -108,6 +111,4 @@
       <li><a href="/listing/{_id}">{title}</a></li>
     {/each}
   </ul>
-
-  <button type="submit">Search</button>
 </form>

@@ -20,8 +20,9 @@ export const ListingSchema = new mongoose.Schema(
     },
     // short, UNIQUE 3 letter abbreviation of the category
     category: {
-      type: String,
-      required: [true, "A category needs an abbreviation"],
+      required: [true, "A listing must have an associated category."],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
     },
     // manually set this field with Date.now()
     createdAt: {

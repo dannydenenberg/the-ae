@@ -197,9 +197,12 @@ router.post(
     let files = req.files.map((file) => file.filename);
 
     // upload files to google cloud API
-    await uploadFiles(files);
+    try {
+      await uploadFiles(files);
+    } catch {
+      res.redirect("/upload-error");
+    }
 
-    res.send("recieved.");
     // console.log(token)
     let loggedInUserID = req.loggedInPersonTokenInformation._id;
     console.log(`🎃🎃 ${loggedInUserID}`);
@@ -227,29 +230,54 @@ router.post(
     newListing.save((err) => {
       if (err) {
         console.log(err);
+        res.redirect("/upload-error");
       } else {
         console.log("✅ New Listing saved successfully.");
+        res.redirect(`/listing/${newListing._id}`);
       }
     });
   },
 );
 
-// get a single listing from body
+// get a single listing from body OR url param
 // req.body = { listingID: "<MONGO ID>"}
+// returns the topic as an object in the listing attributes
 router.post("/listing", (req, res) => {
-  Listing.findById(req.body.listingID, (err, doc) => {
-    if (err) {
-      console.log(err);
-      res.json({ error: true, message: "error in finding the document." });
-      return;
-    }
+  Listing.findById(req.body.listingID || req.query.listingID)
+    .populate("category")
+    .populate("area")
+    .exec((err, doc) => {
+      if (err) {
+        console.log(err);
+        res.json({ error: true, message: "error in finding the document." });
+        return;
+      }
 
-    if (!doc) {
-      res.json({ error: true, message: "Document not found." });
-      return;
-    }
-    res.json(doc);
-  });
+      if (!doc) {
+        res.json({ error: true, message: "Document not found." });
+        return;
+      }
+
+      Topic.findOne(
+        { categories: doc.category.abbreviation },
+        (err3, topic) => {
+          if (err3) {
+            console.log(err3);
+            res.json({
+              error: true,
+              message: "error3 in finding the document.",
+            });
+            return;
+          }
+
+          console.log("in topic");
+
+          // set FULL topic in attributes
+          doc.attributes.topic = topic;
+          res.json(doc);
+        },
+      );
+    });
 });
 
 // `/search?category=apt`
@@ -258,8 +286,15 @@ router.post("/listing", (req, res) => {
 // In either case, there can be a "page" query for pagination.
 // If no page is supplied, the default is 1.
 router.get("/search", async (req, res) => {
+  // for converting category abbreviation into the category _id
+  let categories = await Category.find({});
+  let convertCategoryAbbreviationInto_id = (abbreviation) => {
+    return categories.filter((c) => c.abbreviation == abbreviation)[0]._id;
+  };
+
   const maxNumResultsPerPage = 120;
 
+  // the category and topic here are the ABBREVIATIONS. (for url simplicity)
   let { category, topic, page, query, hostname } = req.query;
 
   if (!page) {
@@ -288,12 +323,16 @@ router.get("/search", async (req, res) => {
   }
 
   if (category) {
-    searchQueryForListings.category = category;
+    searchQueryForListings.category = convertCategoryAbbreviationInto_id(
+      category,
+    );
   }
 
   if (topic) {
     let topicDoc = await Topic.findOne({ abbreviation: topic });
-    let topicCategories = topicDoc.categories;
+    let topicCategories = topicDoc.categories.map((c) => {
+      return convertCategoryAbbreviationInto_id(c);
+    });
 
     if (!topicDoc) {
       topicCategories = [];
@@ -301,6 +340,7 @@ router.get("/search", async (req, res) => {
 
     searchQueryForListings.category = { $in: topicCategories };
   }
+
   console.log("query: " + query);
 
   Listing.find(searchQueryForListings, { score: { $meta: "textScore" } })

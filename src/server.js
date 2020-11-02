@@ -115,7 +115,11 @@ app.use(
   sirv("static", {
     dev,
   }),
-  sapper.middleware(),
+  sapper.middleware({
+    session: (req, res) => ({
+      url: req.url,
+    }),
+  }),
 );
 
 app.use(debugMiddleware);
