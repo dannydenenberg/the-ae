@@ -6,6 +6,7 @@ USES: Database, cookies, login, etc.
 import Person from "./../models/person.model";
 import Area from "./../models/area.model";
 import Listing from "./../models/listing.model";
+import Topic from "./../models/topic.model";
 import Category from "./../models/category.model";
 import express from "express";
 import { VERIFY_TOKEN_EXPRESS, generateToken } from "./jwt";
@@ -203,11 +204,21 @@ router.post(
     let loggedInUserID = req.loggedInPersonTokenInformation._id;
     console.log(`🎃🎃 ${loggedInUserID}`);
 
+    // populate the listingData variable
     let listingData = {
       user: loggedInUserID,
-      ...req.body,
+      isSeller: req.body.isSeller,
+      title: req.body.title,
+      description: req.body.description,
+      category: req.body.category,
+      language: req.body.language,
       images: files,
     };
+
+    if (req.body.price) {
+      listingData.attributes = {};
+      listingData.attributes.price = req.body.price;
+    }
 
     console.log(listingData);
 
@@ -238,6 +249,72 @@ router.post("/listing", (req, res) => {
     }
     res.json(doc);
   });
+});
+
+// `/search?category=apt`
+// OR
+// `/search?topic=day`
+// In either case, there can be a "page" query for pagination.
+// If no page is supplied, the default is 1.
+router.get("/search", (req, res) => {
+  // **********
+  // **********
+  // TODO: CHANGE THIS SO IT SEARCHES IN A SPECIFIC AREA
+  // **********
+  // **********
+  const maxNumResultsPerPage = 120;
+
+  let { category, topic, page } = req.query;
+
+  if (!page) {
+    page = 1;
+  }
+
+  if (category) {
+    Listing.find({ category }, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.json({ error: true, message: "Error in searching categories." });
+        return;
+      }
+
+      if (!docs) {
+        res.json({ listings: [] });
+        return;
+      }
+
+      res.json({ listings: docs });
+    });
+  } else if (topic) {
+    Topic.findOne({ abbreviation: topic }, (err, doc) => {
+      if (err) {
+        res.json({ error: true, message: "Error in searching topics." });
+        return;
+      }
+
+      if (!doc) {
+        res.json({ listings: [] });
+        return;
+      }
+
+      Listing.find({ category: { $in: doc.categories } }, (err2, DOCS) => {
+        if (err2) {
+          res.json({
+            error: true,
+            message: "Error in searching categories 22.",
+          });
+          return;
+        }
+
+        if (!DOCS) {
+          res.json({ listings: [] });
+          return;
+        }
+
+        res.json({ listings: DOCS });
+      });
+    });
+  }
 });
 
 export default router;

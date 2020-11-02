@@ -1,0 +1,98 @@
+CATEGORIES
+
+[
+  {
+    "abbreviation": "ant",
+    "description": "antiques"
+  },
+  {
+    "abbreviation": "far",
+    "description": "farm+garden"
+  },
+  {
+    "abbreviation": "bea",
+    "description": "beauty"
+  },
+  {
+    "abbreviation": "bik",
+    "description": "bikes"
+  },
+  {
+    "abbreviation": "boo",
+    "description": "books"
+  },
+  {
+    "abbreviation": "too",
+    "description": "tools"
+  },
+  {
+    "abbreviation": "cyc",
+    "description": "cycle"
+  },
+  {
+    "abbreviation": "skt",
+    "description": "skilled trade"
+  },
+  {
+    "abbreviation": "hsh",
+    "description": "household"
+  },
+  {
+    "abbreviation": "tra",
+    "description": "travel/vac"
+  },
+  {
+    "abbreviation": "acc",
+    "description": "accounting+finance"
+  },
+  {
+    "abbreviation": "art",
+    "description": "art / media / design"
+  },
+  {
+    "abbreviation": "edu",
+    "description": "education"
+  },
+  {
+    "abbreviation": "gov",
+    "description": "government"
+  }
+]
+
+------------
+TOPICS
+
+[
+  {
+    "abbreviation": "fos",
+    "description": "for sale",
+    "categories": [
+      "ant",
+      "far",
+      "bea",
+      "bik",
+      "boo",
+      "too"
+    ]
+  },
+  {
+    "abbreviation": "ser",
+    "description": "services",
+    "categories": [
+      "cyc",
+      "skt",
+      "hsh",
+      "tra"
+    ]
+  },
+  {
+    "abbreviation": "job",
+    "description": "jobs",
+    "categories": [
+      "acc",
+      "art",
+      "edu",
+      "gov"
+    ]
+  },
+]

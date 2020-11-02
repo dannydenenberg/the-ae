@@ -6,6 +6,8 @@ The default [Sapper](https://github.com/sveltejs/sapper) template, available for
 
 ### Notes
 
+- the price of a listing will be part of the attributes
+- a **topic** is a collection of categories. A **category** is a specific descriptive adjective for a single listing.
 - listings are shown as `/listing/listingMongoID`
 - **API returns {error?: true/false, message?: "..."}**
 - https MUST be enforced or `cors` will scream

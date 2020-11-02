@@ -60,6 +60,13 @@
     cols="30" />
 
   <br />
+  <label for="price">Choose a title:</label>
+  $<input
+    type="text"
+    width="22px"
+    name="price"
+    placeholder="price...(optional)" />
+  <br />
   <label for="area">Choose an area:</label>
   <select name="area">
     <!-- `i` is the index in the array (0, 1,2,3) -->
