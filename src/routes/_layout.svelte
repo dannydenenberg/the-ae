@@ -1,55 +1,4 @@
 <script>
-  let gatherHeaderInfo = async () => {
-    console.log("in gatherHeaderInfo");
-
-    let page = { path: "" };
-
-    if (typeof window !== "undefined") {
-      page = {
-        path: window.location.pathname || "",
-      };
-    }
-
-    if (isListingF(page.path)) {
-      let listingID = page.path.split("/")[2];
-
-      let res = await fetch(`/api/listing?listingID=${listingID}`, {
-        method: "post",
-      });
-      let json = await res.json();
-
-      console.log(json);
-
-      hostname = json.area.hostname;
-      category = json.category;
-      topic = json.attributes.topic;
-      isListing = true;
-
-      console.log("is listings!");
-    } else if (isSearchF(page.path)) {
-      console.log("is search!!");
-    }
-  };
-
-  // path looks like this
-  // (1) /~uno/search?aslfjkjh
-  // (2) /listing/89asfiy9sadf98ys8f
-
-  function isSearchF(path) {
-    return path.split("/")[2] == "search";
-  }
-
-  function isListingF(path) {
-    return path.split("/")[1] == "listing";
-  }
-
-  import { onMount } from "svelte";
-  export let segment;
-  export let category, topic, hostname, isListing;
-
-  onMount(() => {
-    gatherHeaderInfo();
-  });
 </script>
 
 <style>
@@ -119,46 +68,9 @@
   }
 </style>
 
-{#if segment == 'listing'}
-  <div style="display:none">{gatherHeaderInfo()}</div>
-  <p>listing!!</p>
-{/if}
-{#if segment != 'listing'}
-  <div style="display:none">{gatherHeaderInfo()}</div>
-  <p>search!!</p>
-{/if}
 <main>
   <header class="global-header">
     <a class="header-logo" name="logoLink" href="/">AE</a>
-    <nav class="breadcrumbs-container">
-      <ul class="breadcrumbs">
-        <li class="crumb area">
-          <p>
-            {#if isListing}<a href="/~{hostname}">{hostname}</a>{/if}
-            <span class="breadcrumb-arrow">&gt;</span>
-          </p>
-        </li>
-
-        <li class="crumb section">
-          <p>
-            {#if isListing}
-              <a
-                href="/~{hostname}/search?topic={topic.abbreviation}">{topic.description}</a>
-            {/if}
-            <span class="breadcrumb-arrow">&gt;</span>
-          </p>
-        </li>
-
-        <li class="crumb category">
-          <p>
-            {#if isListing}
-              <a
-                href="/~{hostname}/search?category={category.abbreviation}">{category.description}</a>
-            {/if}
-          </p>
-        </li>
-      </ul>
-    </nav>
 
     <div class="userlinks">
       <ul class="user-actions">

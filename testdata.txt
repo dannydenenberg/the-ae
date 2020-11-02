@@ -94,5 +94,40 @@ TOPICS
       "edu",
       "gov"
     ]
+  }
+]
+
+
+-----------------
+
+AREAS
+
+[
+  {
+    "hostname": "exeter",
+    "lat": 42.995423,
+    "lon": -70.9507914,
+    "country": "us",
+    "region": "new hampshire",
+    "description": "Exeter",
+    "timezone": "America/New_York"
   },
+  {
+    "hostname": "csom",
+    "lat": 39.7510475,
+    "lon": -105.2225708,
+    "country": "us",
+    "region": "colorado",
+    "description": "colorado school of mines",
+    "timezone": "America/Colorado"
+  },
+  {
+    "hostname": "uno",
+    "lat": 41.2580268,
+    "lon": -96.010696,
+    "country": "us",
+    "region": "nebraska",
+    "description": "university of nebraska at omaha",
+    "timezone": "America/Chicago"
+  } 
 ]

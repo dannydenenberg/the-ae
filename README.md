@@ -6,6 +6,7 @@ The default [Sapper](https://github.com/sveltejs/sapper) template, available for
 
 ### Notes
 
+- TODO: put the breadcrumbs **under the heading** so it can be controlled in the component level
 - the price of a listing will be part of the attributes
 - a **topic** is a collection of categories. A **category** is a specific descriptive adjective for a single listing.
 - listings are shown as `/listing/listingMongoID`
