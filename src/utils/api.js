@@ -264,27 +264,41 @@ router.get("/search", (req, res) => {
   // **********
   const maxNumResultsPerPage = 120;
 
-  let { category, topic, page } = req.query;
+  let { category, topic, page, query } = req.query;
+
+  let searchQueryForListings = {};
 
   if (!page) {
     page = 1;
   }
 
+  if (!query) {
+    query = /.*/;
+  }
+
   if (category) {
-    Listing.find({ category }, (err, docs) => {
-      if (err) {
-        console.log(err);
-        res.json({ error: true, message: "Error in searching categories." });
-        return;
-      }
+    Listing.find(
+      {
+        category: category,
+        $text: { $search: query },
+      },
+      { score: { $meta: "textScore" } },
+    )
+      .sort({ score: { $meta: "textScore" } })
+      .exec((err, docs) => {
+        if (err) {
+          console.log(err);
+          res.json({ error: true, message: "Error in searching categories." });
+          return;
+        }
 
-      if (!docs) {
-        res.json({ listings: [] });
-        return;
-      }
+        if (!docs) {
+          res.json({ listings: [] });
+          return;
+        }
 
-      res.json({ listings: docs });
-    });
+        res.json({ listings: docs });
+      });
   } else if (topic) {
     Topic.findOne({ abbreviation: topic }, (err, doc) => {
       if (err) {
@@ -297,22 +311,33 @@ router.get("/search", (req, res) => {
         return;
       }
 
-      Listing.find({ category: { $in: doc.categories } }, (err2, DOCS) => {
-        if (err2) {
-          res.json({
-            error: true,
-            message: "Error in searching categories 22.",
-          });
-          return;
-        }
+      console.log("query: " + query);
 
-        if (!DOCS) {
-          res.json({ listings: [] });
-          return;
-        }
+      Listing.find(
+        {
+          category: { $in: doc.categories },
+          $text: { $search: query },
+        },
+        { score: { $meta: "textScore" } },
+      )
+        .sort({ score: { $meta: "textScore" } })
+        .exec((err2, DOCS) => {
+          if (err2) {
+            console.log(err2);
+            res.json({
+              error: true,
+              message: "Error in searching categories 22.",
+            });
+            return;
+          }
 
-        res.json({ listings: DOCS });
-      });
+          if (!DOCS) {
+            res.json({ listings: [] });
+            return;
+          }
+
+          res.json({ listings: DOCS });
+        });
     });
   }
 });

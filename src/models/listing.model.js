@@ -61,5 +61,8 @@ export const ListingSchema = new mongoose.Schema(
   { toJSON: { getters: true } },
 );
 
+// create text indexes
+ListingSchema.index({ title: "text", description: "text" });
+
 const Listing = mongoose.model("Listing", ListingSchema);
 export default Listing;
