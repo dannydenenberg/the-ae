@@ -5,19 +5,30 @@
     let hostname = page.params.area;
     let areas;
 
-    let allCategories, allTopics, error;
+    let allCategories = [],
+      allTopics = [],
+      error;
     try {
       let res = await this.fetch("/api/categories");
       let json = await res.json();
       allCategories = json;
 
+      console.log("all categories");
+      console.log(allCategories);
+
       res = await this.fetch("/api/topics");
       json = await res.json();
       allTopics = json;
 
+      console.log("all topics");
+      console.log(allTopics);
+
       res = await this.fetch("/api/areas");
       json = await res.json();
       areas = json;
+
+      console.log("all areas");
+      console.log(areas);
     } catch {
       error = true;
     }
@@ -27,7 +38,7 @@
         abbreviation: topic.abbreviation,
         description: topic.description,
         categories: allCategories.filter((category) =>
-          topic.categories.includes(category.abbreviation)
+          topic.categories.includes(category.abbreviation),
         ),
       };
     });
