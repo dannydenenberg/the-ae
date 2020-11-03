@@ -26,10 +26,29 @@
       error = true;
     }
 
+    // gather categories/topic
+    let allCategories = [];
+    let allTopics = [];
+
+    try {
+      let res = await this.fetch("/api/categories");
+      let json = await res.json();
+      allCategories = json;
+      allCategories.push({ abbreviation: "", description: "all" });
+
+      res = await this.fetch("/api/topics");
+      json = await res.json();
+      allTopics = json;
+    } catch {
+      error = true;
+    }
+
     console.log("LISTINGS");
     console.log(listings);
 
     return {
+      allCategories,
+      allTopics,
       listings,
       error,
       hostname,
@@ -44,6 +63,9 @@
 <script>
   import { onMount } from "svelte";
 
+  export let allCategories;
+  export let allTopics;
+
   export let listings;
   export let error;
   export let hostname;
@@ -52,10 +74,38 @@
   export let pagination;
   export let textQuery;
 
+  // which topic and category is selected in the header options
+  let categoryToTopic = (cat) => {
+    for (let i = 0; i < allTopics.length; i++) {
+      if (allTopics[i].categories.includes(cat)) {
+        return allTopics[i];
+      }
+    }
+    return {};
+  };
+  export let topicSelected = "",
+    categorySelected = "";
+  if (category) {
+    categorySelected = category;
+    topicSelected = categoryToTopic(category).abbreviation;
+  } else {
+    categorySelected = "";
+
+    if (topic) {
+      topicSelected = topic;
+    } else {
+      topicSelected = allTopics[0].abbreviation;
+    }
+  }
+
   onMount(() => {
     if (error) {
       alert("there was an error.");
     }
+
+    console.log("ALL CATEGORIES THEN ALL TOPICS");
+    console.log(allCategories);
+    console.log(allTopics);
 
     console.log(listings);
   });
@@ -86,7 +136,46 @@
   #results {
     font-family: "Times", serif;
   }
+
+  #breadcrumbs {
+    margin-top: -28px;
+  }
+
+  #breadcrumbs a {
+    text-decoration: none;
+  }
 </style>
+
+<div id="breadcrumbs">
+  <form action="/~{hostname}/search" method="GET">
+    <a href="/~{hostname}">{hostname}</a>
+
+    {'>'}
+
+    <!-- when the topic changes, i change the categories back to "all" -->
+    <select
+      name="topic"
+      onchange="document.getElementById('catselect').selectedIndex={allCategories.length - 1};this.form.submit()">
+      {#each allTopics as { abbreviation, description }, i}
+        {#if abbreviation == topicSelected}
+          <option value={abbreviation} selected>{description}</option>
+        {:else}
+          <option value={abbreviation}>{description}</option>
+        {/if}
+      {/each}
+    </select>
+    {'>'}
+    <select id="catselect" name="category" onchange="this.form.submit()">
+      {#each allCategories as { abbreviation, description }, i}
+        {#if abbreviation == categorySelected}
+          <option value={abbreviation} selected>{description}</option>
+        {:else}
+          <option value={abbreviation}>{description}</option>
+        {/if}
+      {/each}
+    </select>
+  </form>
+</div>
 
 <h1>Search here.</h1>
 

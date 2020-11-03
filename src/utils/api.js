@@ -26,8 +26,19 @@ router.get("/categories", (req, res) => {
   Category.find({}, (err, docs) => {
     if (err)
       throw new Error(
-        "Couldn't find any categorical data. -- NOTE SUPPOSED TO HAPPEN",
+        "Couldn't find any categorical data. -- NOT SUPPOSED TO HAPPEN"
       );
+    res.json(docs);
+  });
+});
+
+router.get("/topics", (req, res) => {
+  Topic.find({}, (err, docs) => {
+    if (err)
+      throw new Error(
+        "Couldn't find any topical data -- NOT SUPPOSED TO HAPPEN"
+      );
+
     res.json(docs);
   });
 });
@@ -36,7 +47,7 @@ router.get("/areas", (req, res) => {
   Area.find({}, (err, docs) => {
     if (err)
       throw new Error(
-        "Couldn't find any area data. -- NOT SUPPOSED TO HAPPEN.",
+        "Couldn't find any area data. -- NOT SUPPOSED TO HAPPEN."
       );
     res.json(docs);
   });
@@ -236,7 +247,7 @@ router.post(
         res.redirect(`/listing/${newListing._id}`);
       }
     });
-  },
+  }
 );
 
 // get a single listing from body OR url param
@@ -275,7 +286,7 @@ router.post("/listing", (req, res) => {
           // set FULL topic in attributes
           doc.attributes.topic = topic;
           res.json(doc);
-        },
+        }
       );
     });
 });
@@ -322,12 +333,6 @@ router.get("/search", async (req, res) => {
     searchQueryForListings.$text = { $search: query };
   }
 
-  if (category) {
-    searchQueryForListings.category = convertCategoryAbbreviationInto_id(
-      category,
-    );
-  }
-
   if (topic) {
     let topicDoc = await Topic.findOne({ abbreviation: topic });
     let topicCategories = topicDoc.categories.map((c) => {
@@ -341,6 +346,12 @@ router.get("/search", async (req, res) => {
     searchQueryForListings.category = { $in: topicCategories };
   }
 
+  // category MUST go after topic (more specific)
+  if (category) {
+    searchQueryForListings.category = convertCategoryAbbreviationInto_id(
+      category
+    );
+  }
   console.log("query: " + query);
 
   Listing.find(searchQueryForListings, { score: { $meta: "textScore" } })

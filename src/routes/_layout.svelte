@@ -66,6 +66,36 @@
     display: flex;
     line-height: 0;
   }
+
+  footer {
+    font-family: Arial, Helvetica, sans-serif;
+    border-top: 1px solid #ccc;
+    background: #eee;
+    padding: 5px;
+  }
+
+  footer {
+    background: #eee;
+    border-top: 1px solid #ccc;
+    bottom: 0;
+    left: 0;
+    line-height: 0.5em;
+    padding: 0.3em 4em 0.3em 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+  }
+
+  footer ul {
+    list-style: none;
+    display: flex;
+    padding-bottom: 10px;
+  }
+
+  footer ul li {
+    padding-left: 10px;
+    padding-bottom: 2px;
+  }
 </style>
 
 <main>
@@ -82,3 +112,14 @@
   </header>
   <slot />
 </main>
+
+<footer>
+  <ul class="clfooter">
+    <li>© 2020 <span class="desktop">the ae</span></li>
+    <li><a href="/help">help</a></li>
+    <li><a href="/scams">safety</a></li>
+    <li class="desktop"><a href="/privacy">privacy</a></li>
+    <li><a href="/terms-of-use">terms</a></li>
+    <li><a href="/about/">about</a></li>
+  </ul>
+</footer>

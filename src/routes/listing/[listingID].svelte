@@ -29,6 +29,7 @@
       loading = false;
     });
   });
+
   export let listingID;
   export let listing = {};
   export let loading = true;
@@ -41,7 +42,27 @@
   #listing {
     font-family: "Times New Roman", Times, serif;
   }
+
+  #breadcrumbs {
+    margin-top: -28px;
+  }
+
+  #breadcrumbs > a {
+    text-decoration: none;
+  }
 </style>
+
+{#if !loading}
+  <div id="breadcrumbs">
+    <a href="/~{listing.area.hostname}">{listing.area.hostname}</a>
+    {'>'}
+    <a
+      href="/~{listing.area.hostname}/search?topic={listing.attributes.topic.abbreviation}">{listing.attributes.topic.description}</a>
+    {'>'}
+    <a
+      href="/~{listing.area.hostname}/search?category={listing.category.abbreviation}">{listing.category.description}</a>
+  </div>
+{/if}
 
 <div id="listing">
   {#if loading}

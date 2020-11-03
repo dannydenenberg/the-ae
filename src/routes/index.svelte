@@ -7,6 +7,11 @@
 <svelte:head>
   <title>root</title>
 </svelte:head>
+
+<p>Redirect to ~asfj...</p>
+
+<a href="/~uno">GO TO UNO</a>
+
 You should
 <a href="/about">see grass.</a>
 or see
